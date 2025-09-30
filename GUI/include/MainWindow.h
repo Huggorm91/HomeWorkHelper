@@ -8,7 +8,17 @@
 #include <gtkmm-4.0/gtkmm/window.h>
 #include <gtkmm-4.0/gtkmm/button.h>
 
-class MainWindow {
+class MainWindow : public Gtk::Window{
+public:
+    MainWindow();
+    ~MainWindow() override = default;
+
+protected:
+    //Signal handlers:
+    void OnButtonClicked();
+
+    //Member widgets:
+    Gtk::Button myButton;
 };
 
 
