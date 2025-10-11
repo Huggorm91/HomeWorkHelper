@@ -18,6 +18,9 @@
 
 # CMake
 cmake-build-*/
+_bin/
+_lib/
+_temp/
 
 # File-based project format
 *.iws

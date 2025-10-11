@@ -1,4 +1,4 @@
 cmake_minimum_required(VERSION 4.0)
 
-add_executable(HomeworkHelper source/main.cpp)
-target_link_libraries(HomeworkHelper HH_GUI)
+add_executable(${CMAKE_PROJECT_NAME} source/main.cpp)
+target_link_libraries(${CMAKE_PROJECT_NAME} HH_GUI)
