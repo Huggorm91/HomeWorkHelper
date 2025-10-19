@@ -1,16 +1,21 @@
 #include "WindowHandler.h"
 #include "HomeworkWindow.h"
 
-int main(int, char**)
+int main()
 {
     HomeworkHelper::HomeworkWindow window;
     HomeworkHelper::WindowHandler::Initialize();
-    HomeworkHelper::WindowHandler::CreateWindow(
+    int windowID = HomeworkHelper::WindowHandler::CreateWindow(
         800,
         1200,
         "Test",
-        std::bind(&HomeworkHelper::HomeworkWindow::CreateImguiContent, window, std::placeholders::_1)
+        std::bind(&HomeworkHelper::HomeworkWindow::CreateImguiContent, &window, std::placeholders::_1)
     );
+
+    if (windowID == -1) {
+        HomeworkHelper::WindowHandler::Shutdown();
+        return -1;
+    }
 
     // Main loop
     while (HomeworkHelper::WindowHandler::IsAnyWindowOpen()) {

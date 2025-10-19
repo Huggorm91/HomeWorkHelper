@@ -187,6 +187,14 @@ namespace HomeworkHelper
         return anyWindowOpen;
     }
 
+    void WindowHandler::SetImguiCallback(int anID, const ImguiUpdateCallback& anImguiCallback)
+    {
+        auto& instance = GetInstance();
+        if (auto iter = instance.myWindows.find(anID); iter != instance.myWindows.end()) {
+            iter->second.imguiUpdateCallback = anImguiCallback;
+        }
+    }
+
     void WindowHandler::InitGLFW()
     {
         glfwSetErrorCallback(glfw_error_callback);

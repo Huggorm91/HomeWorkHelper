@@ -20,6 +20,8 @@ namespace HomeworkHelper
 
         static bool IsAnyWindowOpen();
 
+        static void SetImguiCallback(int anID, const ImguiUpdateCallback& anImguiCallback);
+
     private:
         int myWindowCounter;
         std::unordered_map<int, Window> myWindows;
