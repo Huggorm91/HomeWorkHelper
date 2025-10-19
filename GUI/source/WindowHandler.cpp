@@ -116,7 +116,12 @@ namespace HomeworkHelper
         localInstance = nullptr;
     }
 
-    int WindowHandler::CreateWindow(const int aHeight, const int aWidth, const std::string& aTitle, const ImguiUpdateCallback& anImguiCallback)
+    int WindowHandler::CreateWindow(
+        const int aHeight,
+        const int aWidth,
+        const std::string& aTitle,
+        const ImguiUpdateCallback& anImguiCallback
+    )
     {
         auto& instance = GetInstance();
         auto [entry, success] = instance.myWindows.emplace(instance.myWindowCounter++, Window());
@@ -263,7 +268,12 @@ namespace HomeworkHelper
                                     VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
             debug_report_ci.pfnCallback = debug_report;
             debug_report_ci.pUserData = nullptr;
-            err = f_vkCreateDebugReportCallbackEXT(Vulkan::localInstance, &debug_report_ci, Vulkan::localAllocator, &g_DebugReport);
+            err = f_vkCreateDebugReportCallbackEXT(
+                Vulkan::localInstance,
+                &debug_report_ci,
+                Vulkan::localAllocator,
+                &g_DebugReport
+            );
             check_vk_result(err);
 #endif
         }
@@ -286,7 +296,12 @@ namespace HomeworkHelper
             ImVector<VkExtensionProperties> properties;
             vkEnumerateDeviceExtensionProperties(Vulkan::localPhysicalDevice, nullptr, &properties_count, nullptr);
             properties.resize(properties_count);
-            vkEnumerateDeviceExtensionProperties(Vulkan::localPhysicalDevice, nullptr, &properties_count, properties.Data);
+            vkEnumerateDeviceExtensionProperties(
+                Vulkan::localPhysicalDevice,
+                nullptr,
+                &properties_count,
+                properties.Data
+            );
 #ifdef VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME
             if (IsExtensionAvailable(properties, VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME))
                 device_extensions.push_back(VK_KHR_PORTABILITY_SUBSET_EXTENSION_NAME);
@@ -304,7 +319,12 @@ namespace HomeworkHelper
             create_info.pQueueCreateInfos = queue_info;
             create_info.enabledExtensionCount = static_cast<uint32_t>(device_extensions.Size);
             create_info.ppEnabledExtensionNames = device_extensions.Data;
-            err = vkCreateDevice(Vulkan::localPhysicalDevice, &create_info, Vulkan::localAllocator, &Vulkan::localDevice);
+            err = vkCreateDevice(
+                Vulkan::localPhysicalDevice,
+                &create_info,
+                Vulkan::localAllocator,
+                &Vulkan::localDevice
+            );
             check_vk_result(err);
             vkGetDeviceQueue(Vulkan::localDevice, Vulkan::localQueueFamily, 0, &Vulkan::localQueue);
         }
@@ -325,7 +345,12 @@ namespace HomeworkHelper
             }
             pool_info.poolSizeCount = static_cast<uint32_t>(IM_ARRAYSIZE(pool_sizes));
             pool_info.pPoolSizes = pool_sizes;
-            err = vkCreateDescriptorPool(Vulkan::localDevice, &pool_info, Vulkan::localAllocator, &Vulkan::localDescriptorPool);
+            err = vkCreateDescriptorPool(
+                Vulkan::localDevice,
+                &pool_info,
+                Vulkan::localAllocator,
+                &Vulkan::localDescriptorPool
+            );
             check_vk_result(err);
         }
     }
@@ -414,7 +439,12 @@ namespace HomeworkHelper
         );
 
         VkSurfaceKHR surface;
-        const VkResult err = glfwCreateWindowSurface(Vulkan::localInstance, outWindow.windowHandle, Vulkan::localAllocator, &surface);
+        const VkResult err = glfwCreateWindowSurface(
+            Vulkan::localInstance,
+            outWindow.windowHandle,
+            Vulkan::localAllocator,
+            &surface
+        );
         check_vk_result(err);
 
         glfwGetFramebufferSize(outWindow.windowHandle, &aWidth, &aHeight);
@@ -423,7 +453,12 @@ namespace HomeworkHelper
 
         // Check for WSI support
         VkBool32 res;
-        vkGetPhysicalDeviceSurfaceSupportKHR(Vulkan::localPhysicalDevice, Vulkan::localQueueFamily, outWindow.windowData->Surface, &res);
+        vkGetPhysicalDeviceSurfaceSupportKHR(
+            Vulkan::localPhysicalDevice,
+            Vulkan::localQueueFamily,
+            outWindow.windowData->Surface,
+            &res
+        );
         if (res != VK_TRUE) {
             fprintf(stderr, "Error no WSI support on physical device 0\n");
             exit(-1);
@@ -504,7 +539,12 @@ namespace HomeworkHelper
 
     void WindowHandler::DestroyWindow(Window& outWindow)
     {
-        ImGui_ImplVulkanH_DestroyWindow(Vulkan::localInstance, Vulkan::localDevice, outWindow.windowData, Vulkan::localAllocator);
+        ImGui_ImplVulkanH_DestroyWindow(
+            Vulkan::localInstance,
+            Vulkan::localDevice,
+            outWindow.windowData,
+            Vulkan::localAllocator
+        );
         delete outWindow.windowData;
         outWindow.windowData = nullptr;
     }
@@ -535,7 +575,8 @@ namespace HomeworkHelper
         // Resize swap chain?
         int fb_width, fb_height;
         glfwGetFramebufferSize(outWindow.windowHandle, &fb_width, &fb_height);
-        if (fb_width > 0 && fb_height > 0 && (outWindow.rebuildSwapChain || outWindow.windowData->Width != fb_width ||
+        if (fb_width > 0 && fb_height > 0 && (outWindow.rebuildSwapChain ||
+                                              outWindow.windowData->Width != fb_width ||
                                               outWindow.windowData->Height != fb_height)) {
             ImGui_ImplVulkan_SetMinImageCount(outWindow.minImageCount);
             ImGui_ImplVulkanH_CreateOrResizeWindow(
@@ -573,9 +614,11 @@ namespace HomeworkHelper
 
     void WindowHandler::RenderWindow(Window& outWindow)
     {
-        VkSemaphore image_acquired_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->SemaphoreIndex].
+        VkSemaphore image_acquired_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
+                    SemaphoreIndex].
                 ImageAcquiredSemaphore;
-        VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->SemaphoreIndex].
+        VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
+                    SemaphoreIndex].
                 RenderCompleteSemaphore;
         VkResult err = vkAcquireNextImageKHR(
             Vulkan::localDevice,
@@ -595,7 +638,7 @@ namespace HomeworkHelper
             check_vk_result(err);
         }
 
-        const ImGui_ImplVulkanH_Frame *fd = &outWindow.windowData->Frames[outWindow.windowData->FrameIndex];
+        const ImGui_ImplVulkanH_Frame* fd = &outWindow.windowData->Frames[outWindow.windowData->FrameIndex];
         {
             err = vkWaitForFences(Vulkan::localDevice, 1, &fd->Fence, VK_TRUE, UINT64_MAX);
             // wait indefinitely instead of periodically checking
@@ -654,7 +697,8 @@ namespace HomeworkHelper
         if (outWindow.rebuildSwapChain) {
             return;
         }
-        VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->SemaphoreIndex].
+        VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
+                    SemaphoreIndex].
                 RenderCompleteSemaphore;
         VkPresentInfoKHR info = {};
         info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -673,6 +717,7 @@ namespace HomeworkHelper
         if (err != VK_SUBOPTIMAL_KHR) {
             check_vk_result(err);
         }
-        outWindow.windowData->SemaphoreIndex = (outWindow.windowData->SemaphoreIndex + 1) % outWindow.windowData->SemaphoreCount;
+        outWindow.windowData->SemaphoreIndex = (outWindow.windowData->SemaphoreIndex + 1) % outWindow.windowData->
+                                               SemaphoreCount;
     }
 } // HomeworkHelper

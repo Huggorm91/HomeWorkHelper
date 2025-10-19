@@ -1,7 +1,7 @@
 #include "WindowHandler.h"
 #include "HomeworkWindow.h"
 
-int main(int, char **)
+int main(int, char**)
 {
     HomeworkHelper::HomeworkWindow window;
     HomeworkHelper::WindowHandler::Initialize();
@@ -9,7 +9,8 @@ int main(int, char **)
         800,
         1200,
         "Test",
-        std::bind(&HomeworkHelper::HomeworkWindow::CreateImguiContent, window, std::placeholders::_1));
+        std::bind(&HomeworkHelper::HomeworkWindow::CreateImguiContent, window, std::placeholders::_1)
+    );
 
     // Main loop
     while (HomeworkHelper::WindowHandler::IsAnyWindowOpen()) {
