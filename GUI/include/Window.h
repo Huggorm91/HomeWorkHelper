@@ -1,50 +1,25 @@
 #ifndef HOMEWORKHELPER_WINDOW_H
 #define HOMEWORKHELPER_WINDOW_H
-#include <imgui.h>
 
 struct ImGui_ImplVulkanH_Window;
+struct ImDrawData;
 struct GLFWwindow;
 
 namespace HomeworkHelper {
-    class Window {
-        public:
-        Window();
-        Window(int aWidth, int aHeight);
-        ~Window();
-
-        bool ShouldClose() const;
-        bool IsMinimized() const;
-
-        void RenderWindow();
-
-        private:
-        static int ourWindowCount;
-
-        // TODO: Remove
+    // Struct for holding Window specific variables.
+    // All functionality lies in WindowHandler to keep implementation specific headers from flowing over to other files.
+    struct Window {
+        //TODO: remove
         bool show_demo_window = true;
-        bool show_another_window = false;
-        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+        bool show_another_window = false ;
+        float clear_color[4] = {0.45f, 0.55f, 0.60f, 1.00f};
 
-        // Window handles
-        GLFWwindow* myWindow;
-        ImGui_ImplVulkanH_Window* myWindowData;
-        ImDrawData* myDrawData;
-        ImGuiIO* myIO;
+        bool rebuildSwapChain = false;
+        unsigned minImageCount = 2;
+        GLFWwindow* windowHandle = nullptr;
+        ImGui_ImplVulkanH_Window* windowData = nullptr;
+        ImDrawData* drawData = nullptr;
 
-        void Update();
-        void Render();
-        void Present();
-
-        void CreateWindow(int aWidth, int aHeight);
-
-        static void InitGLFW();
-        static void DestroyGLFW();
-
-        static void InitVulkan();
-        static void DestroyVulkan();
-
-        void InitImgui();
-        static void DestroyImgui();
     };
 } // HomeworkHelper
 

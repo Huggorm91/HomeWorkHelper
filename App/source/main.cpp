@@ -1,13 +1,15 @@
-#include "Window.h"
+#include "WindowHandler.h"
 
 int main(int, char **)
 {
-    HomeworkHelper::Window window(1200, 800);
+    HomeworkHelper::WindowHandler::Initialize();
+    HomeworkHelper::WindowHandler::CreateWindow(800, 1200, "Test");
 
     // Main loop
-    while (!window.ShouldClose()) {
-        window.RenderWindow();
+    while (HomeworkHelper::WindowHandler::IsAnyWindowOpen()) {
+        HomeworkHelper::WindowHandler::RenderWindows();
     }
 
+    HomeworkHelper::WindowHandler::Shutdown();
     return 0;
 }
