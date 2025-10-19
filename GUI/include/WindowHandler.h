@@ -12,7 +12,7 @@ namespace HomeworkHelper
         static void Initialize();
         static void Shutdown();
 
-        static int CreateWindow(int aHeight, int aWidth, const std::string& aTitle);
+        static int CreateWindow(int aHeight, int aWidth, const std::string& aTitle, const ImguiUpdateCallback& anImguiCallback);
 
         static void RenderWindows();
 
