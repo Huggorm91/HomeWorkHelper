@@ -120,14 +120,14 @@ namespace HomeworkHelper
         const int aHeight,
         const int aWidth,
         const std::string& aTitle,
-        const ImguiUpdateCallback& anImguiCallback
+        const ImguiDynamicContentCallback& anImguiCallback
     )
     {
         auto& instance = GetInstance();
         auto [entry, success] = instance.myWindows.emplace(instance.myWindowCounter++, Window());
         if (success) {
             CreateWindow(entry->second, aWidth, aHeight, aTitle);
-            entry->second.imguiUpdateCallback = anImguiCallback;
+            entry->second.imguiDynamicCallback = anImguiCallback;
             return entry->first;
         }
 
@@ -187,11 +187,11 @@ namespace HomeworkHelper
         return anyWindowOpen;
     }
 
-    void WindowHandler::SetImguiCallback(int anID, const ImguiUpdateCallback& anImguiCallback)
+    void WindowHandler::SetImguiCallback(int anID, const ImguiDynamicContentCallback& anImguiCallback)
     {
         auto& instance = GetInstance();
         if (auto iter = instance.myWindows.find(anID); iter != instance.myWindows.end()) {
-            iter->second.imguiUpdateCallback = anImguiCallback;
+            iter->second.imguiDynamicCallback = anImguiCallback;
         }
     }
 
@@ -612,7 +612,7 @@ namespace HomeworkHelper
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        outWindow.imguiUpdateCallback(outWindow.windowData);
+        outWindow.imguiDynamicCallback();
 
         // Rendering
         ImGui::Render();

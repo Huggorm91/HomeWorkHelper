@@ -7,7 +7,8 @@ struct ImDrawData;
 struct GLFWwindow;
 
 namespace HomeworkHelper {
-    typedef std::function<void(ImGui_ImplVulkanH_Window*)> ImguiUpdateCallback;
+    typedef std::function<void()> ImguiStaticContentCallback;
+    typedef std::function<void()> ImguiDynamicContentCallback;
     // Struct for holding Window specific variables.
     // All functionality lies in WindowHandler to keep implementation specific headers from flowing over to other files.
     struct Window {
@@ -16,7 +17,8 @@ namespace HomeworkHelper {
         GLFWwindow* windowHandle = nullptr;
         ImGui_ImplVulkanH_Window* windowData = nullptr;
         ImDrawData* drawData = nullptr;
-        ImguiUpdateCallback imguiUpdateCallback;  // This callback should contain all code to generate the imgui content for the window
+        ImguiStaticContentCallback imguiStaticCallback;  // This callback should contain all code to generate the static content for the window, such as menus and anchor points
+        ImguiDynamicContentCallback imguiDynamicCallback;  // This callback should contain all code to generate the dynamic content for the window, such as buttons and text fields
     };
 } // HomeworkHelper
 

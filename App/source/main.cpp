@@ -9,7 +9,7 @@ int main()
         800,
         1200,
         "Test",
-        std::bind(&HomeworkHelper::HomeworkWindow::CreateImguiContent, &window, std::placeholders::_1)
+        std::bind(&HomeworkHelper::HomeworkWindow::CreateImguiContent, &window)
     );
 
     if (windowID == -1) {

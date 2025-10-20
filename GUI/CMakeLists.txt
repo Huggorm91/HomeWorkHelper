@@ -21,8 +21,6 @@ set(IMGUI_SOURCES
         ${IMGUI_DIR}/imgui_draw.cpp
         ${IMGUI_DIR}/imgui_tables.cpp
         ${IMGUI_DIR}/imgui_widgets.cpp
-        # TODO: Remove this
-        ${IMGUI_DIR}/imgui_demo.cpp
 )
 include_directories(${IMGUI_INCLUDES})
 
