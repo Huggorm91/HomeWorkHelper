@@ -40,6 +40,7 @@ target_include_directories(HH_GUI
 )
 
 target_link_libraries(HH_GUI
+        HH_Common
         ${LIBRARIES}
 )
 # Linux

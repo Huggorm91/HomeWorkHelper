@@ -7,5 +7,6 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY  ${PROJECT_SOURCE_DIR}/_lib/${CMAKE_BUILD_TYP
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY  ${PROJECT_SOURCE_DIR}/_lib/${CMAKE_BUILD_TYPE})
 set(CMAKE_CFG_INTDIR ${PROJECT_SOURCE_DIR}/_temp/${CMAKE_BUILD_TYPE})
 
+add_subdirectory(Common)    # Common Utilities library
 add_subdirectory(GUI)       # Gui library
 add_subdirectory(App)       # App executable
