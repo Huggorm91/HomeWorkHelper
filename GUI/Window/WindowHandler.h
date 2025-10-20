@@ -22,6 +22,8 @@ namespace HomeworkHelper
 
         static void SetImguiCallback(int anID, const ImguiDynamicContentCallback& anImguiCallback);
 
+        static ImGui_ImplVulkanH_Window* GetWindowData(int anID);
+
     private:
         int myWindowCounter;
         std::unordered_map<int, Window> myWindows;

@@ -1,5 +1,5 @@
-#include "WindowHandler.h"
-#include "HomeworkWindow.h"
+#include "GUI/Window/WindowHandler.h"
+#include "GUI/Window/HomeworkWindow.h"
 
 int main()
 {
@@ -16,6 +16,8 @@ int main()
         HomeworkHelper::WindowHandler::Shutdown();
         return -1;
     }
+
+    window.SetWindowData(HomeworkHelper::WindowHandler::GetWindowData(windowID));
 
     // Main loop
     while (HomeworkHelper::WindowHandler::IsAnyWindowOpen()) {

@@ -6,9 +6,9 @@ find_package(Vulkan REQUIRED)
 set(LIBRARIES "glfw;Vulkan::Vulkan")
 
 set(LOCAL_SOURCES
-        source/HomeworkWindow.cpp
-        source/Window.cpp
-        source/WindowHandler.cpp
+        Window/HomeworkWindow.cpp
+        Window/Window.cpp
+        Window/WindowHandler.cpp
 )
 
 # Dear ImGui
@@ -32,11 +32,6 @@ link_directories(${X11_LIBRARIES})
 add_library(HH_GUI
         ${LOCAL_SOURCES}
         ${IMGUI_SOURCES}
-)
-
-target_include_directories(HH_GUI
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-        PUBLIC ${IMGUI_INCLUDES}
 )
 
 target_link_libraries(HH_GUI

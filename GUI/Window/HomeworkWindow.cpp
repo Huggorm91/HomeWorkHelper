@@ -1,5 +1,5 @@
-#include "../include/HomeworkWindow.h"
-#include "../include/GUIIncludes.h"
+#include "HomeworkWindow.h"
+#include "GUI/GUIIncludes.h"
 
 namespace HomeworkHelper
 {
@@ -30,5 +30,10 @@ namespace HomeworkHelper
             );
             ImGui::End();
         }
+    }
+
+    void HomeworkWindow::SetWindowData(ImGui_ImplVulkanH_Window* someWindowData)
+    {
+        myWindowData = someWindowData;
     }
 } // HomeworkHelper

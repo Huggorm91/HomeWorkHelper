@@ -1,5 +1,5 @@
 #include "WindowHandler.h"
-#include "GUIIncludes.h"
+#include "GUI/GUIIncludes.h"
 #include <format>
 #include <vector>
 #include <cassert>
@@ -193,6 +193,15 @@ namespace HomeworkHelper
         if (auto iter = instance.myWindows.find(anID); iter != instance.myWindows.end()) {
             iter->second.imguiDynamicCallback = anImguiCallback;
         }
+    }
+
+    ImGui_ImplVulkanH_Window* WindowHandler::GetWindowData(int anID)
+    {
+        auto& instance = GetInstance();
+        if (auto iter = instance.myWindows.find(anID); iter != instance.myWindows.end()) {
+            return iter->second.windowData;
+        }
+        return nullptr;
     }
 
     void WindowHandler::InitGLFW()
