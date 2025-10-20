@@ -9,10 +9,11 @@ set(LOCAL_SOURCES
         Window/HomeworkWindow.cpp
         Window/Window.cpp
         Window/WindowHandler.cpp
+        ImguiComponents/ImguiComponent.cpp
 )
 
 # Dear ImGui
-set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../Thirdparty/Imgui)
+set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/Thirdparty/Imgui)
 set(IMGUI_INCLUDES ${IMGUI_DIR} ${IMGUI_DIR}/backends)
 set(IMGUI_SOURCES
         ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
