@@ -10,6 +10,22 @@ set(LOCAL_SOURCES
         Window/Window.cpp
         Window/WindowHandler.cpp
         ImguiComponents/ImguiComponent.cpp
+        ImguiComponents/MenuBar.cpp
+        ImguiComponents/MenuTab.cpp
+        ImguiComponents/MenuItem.cpp
+        ImguiComponents/Button.cpp
+        ImguiComponents/Textfield.cpp
+        ImguiComponents/RadioButton.cpp
+        ImguiComponents/NumberField.cpp
+        ImguiComponents/ImGuiID.cpp
+        ImguiComponents/IntSlider.cpp
+        ImguiComponents/Checkbox.cpp
+        ImguiComponents/ComboBox.cpp
+        ImguiComponents/ComboItem.cpp
+        ImguiComponents/Label.cpp
+        ImguiComponents/SeparatorLine.cpp
+        ImguiComponents/CollapsableHeader.cpp
+        ImguiComponents/TreeNode.cpp
 )
 
 # Dear ImGui

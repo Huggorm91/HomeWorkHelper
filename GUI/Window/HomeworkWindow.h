@@ -24,7 +24,7 @@ namespace HomeworkHelper
         private:
         bool show_another_window = false;
         ImGui_ImplVulkanH_Window* myWindowData = nullptr;
-        std::vector<std::shared_ptr<ImguiComponent>> myComponents;
+        std::vector<std::unique_ptr<Component::ImguiComponent>> myComponents;
     };
 } // HomeworkHelper
 

@@ -6,10 +6,10 @@ namespace Common
     class Vec2
     {
         public:
-        int x, y;
+        float x = 0.f, y = 0.f;
 
         Vec2() = default;
-        Vec2(int aX, int aY);
+        Vec2(float aX, float aY);
         ~Vec2() = default;
     };
 } // Common
