@@ -26,6 +26,8 @@ set(LOCAL_SOURCES
         ImguiComponents/SeparatorLine.cpp
         ImguiComponents/CollapsableHeader.cpp
         ImguiComponents/TreeNode.cpp
+        ImguiComponents/SameLine.cpp
+        ImguiComponents/SameLine.h
 )
 
 # Dear ImGui

@@ -16,8 +16,8 @@ namespace HomeworkHelper::Component
         void UpdateContent() override;
 
     private:
-        bool* myBool;
-        std::string myName;
+        bool* myOutput;
+        std::string myLabel;
         std::function<void()> myCallback;
     };
 } // HomeworkHelper::Component

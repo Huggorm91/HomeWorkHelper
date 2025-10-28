@@ -5,13 +5,13 @@
 
 namespace HomeworkHelper::Component
 {
-    Textfield::Textfield(): myText(nullptr)
+    Textfield::Textfield(): myOutput(nullptr)
     {
     }
 
     void Textfield::UpdateContent()
     {
-        assert(myText && "Output is not set!");
-        ImGui::InputText(myName.c_str(), myText, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue);
+        assert(myOutput && "Output is not set!");
+        ImGui::InputText(myLabel.c_str(), myOutput, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue);
     }
 } // HomeworkHelper::Component

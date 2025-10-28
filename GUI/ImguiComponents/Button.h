@@ -18,7 +18,7 @@ namespace HomeworkHelper::Component
 
     private:
         Common::Vec2 mySize;
-        std::string myName;
+        std::string myLabel;
         std::function<void()> myCallback;
     };
 } // HomeworkHelper::Component

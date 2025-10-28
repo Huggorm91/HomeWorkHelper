@@ -17,8 +17,8 @@ namespace HomeworkHelper::Component
     private:
         int myMin;
         int myMax;
-        int* myInt;
-        std::string myName;
+        int* myOutput;
+        std::string myLabel;
     };
 } // HomeworkHelper::Component
 

@@ -1,5 +1,7 @@
 #ifndef HOMEWORKHELPER_LABEL_H
 #define HOMEWORKHELPER_LABEL_H
+#include <string>
+
 #include "ImguiComponent.h"
 
 namespace HomeworkHelper::Component
@@ -11,6 +13,9 @@ namespace HomeworkHelper::Component
         ~Label() override = default;
 
         void UpdateContent() override;
+
+    private:
+        std::string myLabel;
     };
 } // HomeworkHelper::Component
 

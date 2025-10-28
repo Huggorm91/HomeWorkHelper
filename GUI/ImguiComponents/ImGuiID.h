@@ -1,5 +1,5 @@
-#ifndef HOMEWORKHELPER_NUMBERSELECTOR_H
-#define HOMEWORKHELPER_NUMBERSELECTOR_H
+#ifndef HOMEWORKHELPER_IMGUIID_H
+#define HOMEWORKHELPER_IMGUIID_H
 #include <memory>
 #include <string>
 
@@ -22,4 +22,4 @@ namespace HomeworkHelper::Component
     };
 } // HomeworkHelper::Component
 
-#endif //HOMEWORKHELPER_NUMBERSELECTOR_H
+#endif //HOMEWORKHELPER_IMGUIID_H

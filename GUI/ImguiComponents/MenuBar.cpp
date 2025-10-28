@@ -17,4 +17,9 @@ namespace HomeworkHelper::Component
     {
         myItems.emplace_back(std::move(aChild));
     }
+
+    void MenuBar::ClearChildren()
+    {
+        myItems.clear();
+    }
 } // HomeworkHelper::Component

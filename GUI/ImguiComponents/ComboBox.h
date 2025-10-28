@@ -3,22 +3,25 @@
 #include <vector>
 #include <memory>
 
-#include "ComboItem.h"
+#include "ImguiComponent.h"
 
 namespace HomeworkHelper::Component
 {
     class ComboBox : public ImguiComponent
     {
     public:
-        ComboBox() = default;
+        ComboBox();
         ~ComboBox() override = default;
 
         void UpdateContent() override;
 
-        void AddChildNode(std::unique_ptr<ComboItem>& aChild);
+        void AddChildNode(std::unique_ptr<ImguiComponent>& aChild);
+        void ClearChildren();
 
     private:
-        std::vector<std::unique_ptr<ComboItem>> myItems;
+        std::string* myPreviewString;
+        std::string myLabel;
+        std::vector<std::unique_ptr<ImguiComponent>> myItems;
     };
 } // HomeworkHelper::Component
 

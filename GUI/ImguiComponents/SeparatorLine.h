@@ -7,7 +7,7 @@ namespace HomeworkHelper::Component
     class SeparatorLine : public ImguiComponent
     {
     public:
-        SeparatorLine();
+        SeparatorLine() = default;
         ~SeparatorLine() override = default;
 
         void UpdateContent() override;

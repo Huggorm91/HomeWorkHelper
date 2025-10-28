@@ -6,13 +6,13 @@ namespace HomeworkHelper::Component
 {
     IntSlider::IntSlider() : myMin(0),
                              myMax(0),
-                             myInt(nullptr)
+                             myOutput(nullptr)
     {
     }
 
     void IntSlider::UpdateContent()
     {
-        assert(myInt && "Output is not set!");
-        ImGui::SliderInt(myName.c_str(), myInt, myMin, myMax);
+        assert(myOutput && "Output is not set!");
+        ImGui::SliderInt(myLabel.c_str(), myOutput, myMin, myMax);
     }
 } // HomeworkHelper::Component

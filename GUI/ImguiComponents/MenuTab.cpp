@@ -5,7 +5,7 @@ namespace HomeworkHelper::Component
 {
     void MenuTab::UpdateContent()
     {
-        if (ImGui::BeginMenu(myName.c_str())) {
+        if (ImGui::BeginMenu(myLabel.c_str())) {
             for (auto& item: myItems) {
                 item->UpdateContent();
             }
@@ -16,5 +16,10 @@ namespace HomeworkHelper::Component
     void MenuTab::AddChildNode(std::unique_ptr<ImguiComponent>& aChild)
     {
         myItems.emplace_back(std::move(aChild));
+    }
+
+    void MenuTab::ClearChildren()
+    {
+        myItems.clear();
     }
 } // HomeworkHelper::Component

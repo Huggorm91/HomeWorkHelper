@@ -6,7 +6,7 @@ namespace HomeworkHelper::Component
 {
     void Button::UpdateContent()
     {
-        if (ImGui::Button(myName.c_str(), ImVec2(mySize.x, mySize.y))) {
+        if (ImGui::Button(myLabel.c_str(), ImVec2(mySize.x, mySize.y))) {
             assert(myCallback && "Callback is not set!");
             myCallback();
         }

@@ -9,14 +9,14 @@ namespace HomeworkHelper::Component
 {
     class MenuItem : public ImguiComponent
     {
-        public:
+    public:
         MenuItem() = default;
         ~MenuItem() override = default;
 
         void UpdateContent() override;
 
     private:
-        std::string myName;
+        std::string myLabel;
         std::function<void()> myCallback;
     };
 } // HomeworkHelper::Component

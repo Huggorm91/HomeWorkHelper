@@ -1,5 +1,8 @@
-#ifndef HOMEWORKHELPER_COMBOOPTION_H
-#define HOMEWORKHELPER_COMBOOPTION_H
+#ifndef HOMEWORKHELPER_COMBOITEM_H
+#define HOMEWORKHELPER_COMBOITEM_H
+#include <string>
+#include <functional>
+
 #include "ImguiComponent.h"
 
 namespace HomeworkHelper::Component
@@ -11,7 +14,12 @@ namespace HomeworkHelper::Component
         ~ComboItem() override = default;
 
         void UpdateContent() override;
+
+    private:
+        std::string myLabel;
+        std::function<void()> myOnSelectedCallback;
+        std::function<bool(std::string&)> myIsSelectedFunction;
     };
 } // HomeworkHelper::Component
 
-#endif //HOMEWORKHELPER_COMBOOPTION_H
+#endif //HOMEWORKHELPER_COMBOITEM_H

@@ -1,5 +1,5 @@
-#ifndef HOMEWORKHELPER_MENUITEM_H
-#define HOMEWORKHELPER_MENUITEM_H
+#ifndef HOMEWORKHELPER_MENUTAB_H
+#define HOMEWORKHELPER_MENUTAB_H
 #include <vector>
 #include <memory>
 
@@ -16,11 +16,12 @@ namespace HomeworkHelper::Component
         void UpdateContent() override;
 
         void AddChildNode(std::unique_ptr<ImguiComponent>& aChild);
+        void ClearChildren();
 
     private:
-        std::string myName;
+        std::string myLabel;
         std::vector<std::unique_ptr<ImguiComponent>> myItems;
     };
 } // HomeworkHelper::Component
 
-#endif //HOMEWORKHELPER_MENUITEM_H
+#endif //HOMEWORKHELPER_MENUTAB_H

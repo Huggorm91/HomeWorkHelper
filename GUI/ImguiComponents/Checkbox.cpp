@@ -4,14 +4,14 @@
 
 namespace HomeworkHelper::Component
 {
-    Checkbox::Checkbox() : myBool(nullptr)
+    Checkbox::Checkbox() : myOutput(nullptr)
     {
     }
 
     void Checkbox::UpdateContent()
     {
-        assert(myBool && "Output is not set!");
-        if (ImGui::Checkbox(myName.c_str(), myBool)
+        assert(myOutput && "Output is not set!");
+        if (ImGui::Checkbox(myLabel.c_str(), myOutput)
             && myCallback) {
             myCallback();
         }
