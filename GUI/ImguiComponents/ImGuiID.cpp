@@ -4,6 +4,10 @@
 
 namespace HomeworkHelper::Component
 {
+    ImGuiID::ImGuiID(const std::string& aId) : myID(aId)
+    {
+    }
+
     void ImGuiID::UpdateContent()
     {
         assert(myChild && "Child is not set!");
@@ -12,7 +16,12 @@ namespace HomeworkHelper::Component
         ImGui::PopID();
     }
 
-    void ImGuiID::AddChild(std::unique_ptr<ImguiComponent>& aChild)
+    void ImGuiID::SetId(const std::string& aId)
+    {
+        myID = aId;
+    }
+
+    void ImGuiID::SetChild(std::unique_ptr<ImguiComponent>& aChild)
     {
         myChild = std::move(aChild);
     }

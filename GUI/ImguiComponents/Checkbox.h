@@ -11,9 +11,18 @@ namespace HomeworkHelper::Component
     {
     public:
         Checkbox();
+        ///
+        /// @param aLabel The displayed label
+        /// @param aOutput The output used by the checkbox, true if checked
+        /// @param aCallback This function is called when the box is set as checked
+        Checkbox(const std::string& aLabel, bool* aOutput, const std::function<void()>& aCallback = nullptr);
         ~Checkbox() override = default;
 
         void UpdateContent() override;
+
+        void SetOutput(bool* aOutput);
+        void SetLabel(const std::string& aLabel);
+        void SetCallback(const std::function<void()>& aCallback);
 
     private:
         bool* myOutput;

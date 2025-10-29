@@ -11,12 +11,19 @@ namespace HomeworkHelper::Component
     {
     public:
         ComboBox();
+        ///
+        /// @param aLabel The displayed label
+        /// @param aPreviewString The string shown when the ComboBox is closed, displays an empty string if nullptr
+        explicit ComboBox(const std::string& aLabel, std::string* aPreviewString = nullptr);
         ~ComboBox() override = default;
 
         void UpdateContent() override;
 
         void AddChildNode(std::unique_ptr<ImguiComponent>& aChild);
         void ClearChildren();
+
+        void SetLabel(const std::string& aLabel);
+        void SetPreviewString(std::string* aPreviewString);
 
     private:
         std::string* myPreviewString;

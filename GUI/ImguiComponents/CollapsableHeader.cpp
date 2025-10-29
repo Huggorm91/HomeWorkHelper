@@ -7,9 +7,18 @@ namespace HomeworkHelper::Component
     {
     }
 
+    CollapsableHeader::CollapsableHeader(const std::string& aLabel, bool aIsDefaultOpen) :
+        myIsDefaultOpen(aIsDefaultOpen),
+        myLabel(aLabel)
+    {
+    }
+
     void CollapsableHeader::UpdateContent()
     {
-        if (ImGui::CollapsingHeader(myLabel.c_str(), myIsDefaultOpen ? ImGuiTreeNodeFlags_DefaultOpen : ImGuiTreeNodeFlags_None)) {
+        if (ImGui::CollapsingHeader(
+            myLabel.c_str(),
+            myIsDefaultOpen ? ImGuiTreeNodeFlags_DefaultOpen : ImGuiTreeNodeFlags_None
+        )) {
             for (auto& item: myItems) {
                 item->UpdateContent();
             }
@@ -24,5 +33,10 @@ namespace HomeworkHelper::Component
     void CollapsableHeader::ClearChildren()
     {
         myItems.clear();
+    }
+
+    void CollapsableHeader::SetLabel(const std::string& aLabel)
+    {
+        myLabel = aLabel;
     }
 } // HomeworkHelper::Component

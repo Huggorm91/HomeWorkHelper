@@ -11,12 +11,15 @@ namespace HomeworkHelper::Component
     {
     public:
         MenuTab() = default;
+        explicit MenuTab(const std::string& aLabel);
         ~MenuTab() override = default;
 
         void UpdateContent() override;
 
         void AddChildNode(std::unique_ptr<ImguiComponent>& aChild);
         void ClearChildren();
+
+        void SetLabel(const std::string& aLabel);
 
     private:
         std::string myLabel;

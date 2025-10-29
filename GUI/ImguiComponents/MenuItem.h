@@ -11,9 +11,16 @@ namespace HomeworkHelper::Component
     {
     public:
         MenuItem() = default;
+        ///
+        /// @param aLabel The displayed name of the menu option
+        /// @param aCallback The function called when the option is clicked
+        MenuItem(const std::string& aLabel, const std::function<void()>& aCallback);
         ~MenuItem() override = default;
 
         void UpdateContent() override;
+
+        void SetLabel(const std::string& aLabel);
+        void SetCallback(const std::function<void()>& aCallback);
 
     private:
         std::string myLabel;

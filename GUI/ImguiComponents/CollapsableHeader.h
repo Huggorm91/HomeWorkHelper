@@ -11,12 +11,18 @@ namespace HomeworkHelper::Component
     {
     public:
         CollapsableHeader();
+        ///
+        /// @param aLabel The displayed name of the header
+        /// @param aIsDefaultOpen Will determine if the header is expanded or not when loaded
+        explicit CollapsableHeader(const std::string& aLabel, bool aIsDefaultOpen = false);
         ~CollapsableHeader() override = default;
 
         void UpdateContent() override;
 
         void AddChildNode(std::unique_ptr<ImguiComponent>& aChild);
         void ClearChildren();
+
+        void SetLabel(const std::string& aLabel);
 
     private:
         bool myIsDefaultOpen;

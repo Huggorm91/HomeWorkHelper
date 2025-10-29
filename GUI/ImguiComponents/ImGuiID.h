@@ -11,11 +11,16 @@ namespace HomeworkHelper::Component
     {
     public:
         ImGuiID() = default;
+        ///
+        /// @param aId The ID that is going to wrap the child
+        explicit ImGuiID(const std::string& aId);
         ~ImGuiID() override = default;
 
         void UpdateContent() override;
 
-        void AddChild(std::unique_ptr<ImguiComponent>& aChild);
+        void SetId(const std::string& aId);
+        void SetChild(std::unique_ptr<ImguiComponent>& aChild);
+
     private:
         std::string myID;
         std::unique_ptr<ImguiComponent> myChild;

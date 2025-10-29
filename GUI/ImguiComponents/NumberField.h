@@ -10,9 +10,16 @@ namespace HomeworkHelper::Component
     {
     public:
         NumberField();
+        ///
+        /// @param aLabel The displayed label
+        /// @param aOutput The output of the field
+        NumberField(const std::string& aLabel, int* aOutput);
         ~NumberField() override = default;
 
         void UpdateContent() override;
+
+        void SetOutput(int* aOutput);
+        void SetLabel(const std::string& aLabel);
 
     private:
         int* myOutput;

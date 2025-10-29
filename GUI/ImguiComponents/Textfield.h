@@ -10,9 +10,16 @@ namespace HomeworkHelper::Component
     {
     public:
         Textfield();
+        ///
+        /// @param aLabel The displayed label
+        /// @param aOutput The output of the field
+        Textfield(const std::string& aLabel, std::string* aOutput);
         ~Textfield() override = default;
 
         void UpdateContent() override;
+
+        void SetOutput(std::string* aOutput);
+        void SetLabel(const std::string& aLabel);
 
     private:
         std::string* myOutput;

@@ -12,12 +12,17 @@ namespace HomeworkHelper::Component
     {
     public:
         TreeNode() = default;
+        ///
+        /// @param aLabel The displayed name of the node
+        explicit TreeNode(const std::string& aLabel);
         ~TreeNode() override = default;
 
         void UpdateContent() override;
 
         void AddChildNode(std::unique_ptr<ImguiComponent>& aChild);
         void ClearChildren();
+
+        void SetLabel(const std::string& aLabel);
 
     private:
         std::string myLabel;

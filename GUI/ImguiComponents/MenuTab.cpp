@@ -3,6 +3,10 @@
 
 namespace HomeworkHelper::Component
 {
+    MenuTab::MenuTab(const std::string& aLabel): myLabel(aLabel)
+    {
+    }
+
     void MenuTab::UpdateContent()
     {
         if (ImGui::BeginMenu(myLabel.c_str())) {
@@ -21,5 +25,10 @@ namespace HomeworkHelper::Component
     void MenuTab::ClearChildren()
     {
         myItems.clear();
+    }
+
+    void MenuTab::SetLabel(const std::string& aLabel)
+    {
+        myLabel = aLabel;
     }
 } // HomeworkHelper::Component

@@ -3,6 +3,10 @@
 
 namespace HomeworkHelper::Component
 {
+    TreeNode::TreeNode(const std::string& aLabel) : myLabel(aLabel)
+    {
+    }
+
     void TreeNode::UpdateContent()
     {
         if (ImGui::TreeNode(myLabel.c_str())) {
@@ -21,5 +25,10 @@ namespace HomeworkHelper::Component
     void TreeNode::ClearChildren()
     {
         myItems.clear();
+    }
+
+    void TreeNode::SetLabel(const std::string& aLabel)
+    {
+        myLabel = aLabel;
     }
 } // HomeworkHelper::Component
