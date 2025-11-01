@@ -22,7 +22,11 @@ namespace HomeworkHelper
         void SetWindowData(ImGui_ImplVulkanH_Window* someWindowData);
 
         private:
+        //TODO: Remove these test variables
         bool show_another_window = false;
+        int slider = 0;
+        int counter = 0;
+
         ImGui_ImplVulkanH_Window* myWindowData = nullptr;
         std::vector<std::unique_ptr<Component::ImguiComponent>> myComponents;
     };

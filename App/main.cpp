@@ -4,6 +4,8 @@
 int main()
 {
     HomeworkHelper::HomeworkWindow window;
+    window.GenerateImguiContent();
+
     HomeworkHelper::WindowHandler::Initialize();
     int windowID = HomeworkHelper::WindowHandler::CreateWindow(
         800,

@@ -1,41 +1,48 @@
 #include "HomeworkWindow.h"
+
+#include <format>
+
 #include "GUI/GUIIncludes.h"
+
+#include "GUI/ImguiComponents/Window.h"
+#include "GUI/ImguiComponents/Label.h"
+#include "GUI/ImguiComponents/Checkbox.h"
+#include "GUI/ImguiComponents/IntSlider.h"
+#include "GUI/ImguiComponents/Button.h"
+#include "GUI/ImguiComponents/SameLine.h"
 
 namespace HomeworkHelper
 {
     void HomeworkWindow::GenerateImguiContent()
     {
+        // Temporary content to test the system
+        auto& baseWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Hello, world!"));
+        auto& window = dynamic_cast<Component::Window&>(*baseWindow);
+
+        window.AddChildNode(std::make_unique<Component::Label>("This is some useful text."));
+
+        window.AddChildNode(std::make_unique<Component::Checkbox>("Another Window", &show_another_window));
+
+        window.AddChildNode(std::make_unique<Component::IntSlider>("integer", &slider, 0, 100));
+
+        window.AddChildNode(std::make_unique<Component::Button>("Button", Common::Vec2(), [this]{counter++;}));
+        window.AddChildNode(std::make_unique<Component::SameLine>());
+        window.AddChildNode(std::make_unique<Component::DynamicLabel>([this]{return std::format("counter = {}", counter);}));
+
+        window.AddChildNode(std::make_unique<Component::DynamicLabel>([]{return std::format("Application average {} ms/frame ({} FPS)",
+            1000.0f / ImGui::GetIO().Framerate,
+            ImGui::GetIO().Framerate);}));
+
+        auto& baseAnotherWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Another Window", &show_another_window));
+        auto& anotherWindow = dynamic_cast<Component::Window&>(*baseAnotherWindow);
+        anotherWindow.AddChildNode(std::make_unique<Component::Label>("Hello from another window!"));
+        anotherWindow.AddChildNode(std::make_unique<Component::Button>("Close Me", Common::Vec2(), [this]{show_another_window = false;}));
     }
 
     void HomeworkWindow::UpdateImguiContent()
     {
         for (const auto& component: myComponents) {
             component->UpdateContent();
-        }
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        {
-            static float f = 0.0f;
-            static int counter = 0;
-
-            ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-
-            ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Another Window", &show_another_window);
-
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-
-            if (ImGui::Button("Button"))
-                // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
-            ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
-
-            ImGui::Text(
-                "Application average %.3f ms/frame (%.1f FPS)",
-                1000.0f / ImGui::GetIO().Framerate,
-                ImGui::GetIO().Framerate
-            );
-            ImGui::End();
         }
     }
 
