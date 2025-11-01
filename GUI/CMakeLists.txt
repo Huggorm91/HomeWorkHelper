@@ -26,6 +26,7 @@ set(LOCAL_SOURCES
         ImguiComponents/CollapsableHeader.cpp
         ImguiComponents/TreeNode.cpp
         ImguiComponents/SameLine.cpp
+        ImguiComponents/Window.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -50,6 +51,7 @@ set(PUBLIC_HEADERS
         ImguiComponents/CollapsableHeader.h
         ImguiComponents/TreeNode.h
         ImguiComponents/SameLine.h
+        ImguiComponents/Window.h
 )
 
 set(PRIVATE_HEADERS
