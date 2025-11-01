@@ -9,11 +9,14 @@ namespace HomeworkHelper::Component
 
     void Window::UpdateContent()
     {
-        ImGui::Begin(myLabel.c_str(), myIsOpen);
-        for (auto& item: myItems) {
-            item->UpdateContent();
+        // Only render window if myIsOpen is nullptr or true
+        if (myIsOpen == nullptr || *myIsOpen) {
+            ImGui::Begin(myLabel.c_str(), myIsOpen);
+            for (auto& item: myItems) {
+                item->UpdateContent();
+            }
+            ImGui::End();
         }
-        ImGui::End();
     }
 
     void Window::AddChildNode(std::unique_ptr<ImguiComponent> aChild)

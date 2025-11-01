@@ -13,7 +13,7 @@ namespace HomeworkHelper::Component
         Window() = default;
         ///
         /// @param aLabel The titlebar of the window
-        /// @param aIsOpen Minimized if false, always open if nullptr
+        /// @param aIsOpen Not rendered if false, always shown if nullptr
         explicit Window(const std::string& aLabel, bool* aIsOpen = nullptr);
         ~Window() override = default;
 
