@@ -3,7 +3,7 @@
 
 namespace HomeworkHelper::Component
 {
-    Label::Label(const std::string& aLabel): myLabel(aLabel)
+    Label::Label(const std::string& aLabel) : myLabel(aLabel)
     {
     }
 
@@ -15,5 +15,19 @@ namespace HomeworkHelper::Component
     void Label::SetLabel(const std::string& aLabel)
     {
         myLabel = aLabel;
+    }
+
+    DynamicLabel::DynamicLabel(const std::function<std::string()>& aLabelCallback) : myCallback(aLabelCallback)
+    {
+    }
+
+    void DynamicLabel::UpdateContent()
+    {
+        ImGui::Text("%s", myCallback().c_str());
+    }
+
+    void DynamicLabel::SetLabelCallback(const std::function<std::string()>& aLabelCallback)
+    {
+        myCallback = aLabelCallback;
     }
 } // HomeworkHelper::Component
