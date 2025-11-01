@@ -25,7 +25,7 @@ namespace HomeworkHelper::Component
         }
     }
 
-    void CollapsableHeader::AddChildNode(std::unique_ptr<ImguiComponent>& aChild)
+    void CollapsableHeader::AddChildNode(std::unique_ptr<ImguiComponent> aChild)
     {
         myItems.emplace_back(std::move(aChild));
     }

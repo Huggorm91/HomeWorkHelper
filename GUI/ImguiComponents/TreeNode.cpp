@@ -17,7 +17,7 @@ namespace HomeworkHelper::Component
         }
     }
 
-    void TreeNode::AddChildNode(std::unique_ptr<ImguiComponent>& aChild)
+    void TreeNode::AddChildNode(std::unique_ptr<ImguiComponent> aChild)
     {
         myItems.emplace_back(std::move(aChild));
     }

@@ -21,7 +21,7 @@ namespace HomeworkHelper::Component
         }
     }
 
-    void ComboBox::AddChildNode(std::unique_ptr<ImguiComponent>& aChild)
+    void ComboBox::AddChildNode(std::unique_ptr<ImguiComponent> aChild)
     {
         myItems.emplace_back(std::move(aChild));
     }

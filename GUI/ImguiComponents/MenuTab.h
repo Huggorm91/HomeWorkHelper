@@ -16,7 +16,7 @@ namespace HomeworkHelper::Component
 
         void UpdateContent() override;
 
-        void AddChildNode(std::unique_ptr<ImguiComponent>& aChild);
+        void AddChildNode(std::unique_ptr<ImguiComponent> aChild);
         void ClearChildren();
 
         void SetLabel(const std::string& aLabel);

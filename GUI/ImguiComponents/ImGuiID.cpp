@@ -21,7 +21,7 @@ namespace HomeworkHelper::Component
         myID = aId;
     }
 
-    void ImGuiID::SetChild(std::unique_ptr<ImguiComponent>& aChild)
+    void ImGuiID::SetChild(std::unique_ptr<ImguiComponent> aChild)
     {
         myChild = std::move(aChild);
     }

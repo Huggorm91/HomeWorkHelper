@@ -19,7 +19,7 @@ namespace HomeworkHelper::Component
         void UpdateContent() override;
 
         void SetId(const std::string& aId);
-        void SetChild(std::unique_ptr<ImguiComponent>& aChild);
+        void SetChild(std::unique_ptr<ImguiComponent> aChild);
 
     private:
         std::string myID;

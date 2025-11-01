@@ -17,7 +17,7 @@ namespace HomeworkHelper::Component
         }
     }
 
-    void MenuTab::AddChildNode(std::unique_ptr<ImguiComponent>& aChild)
+    void MenuTab::AddChildNode(std::unique_ptr<ImguiComponent> aChild)
     {
         myItems.emplace_back(std::move(aChild));
     }
