@@ -9,6 +9,8 @@ set(CMAKE_CFG_INTDIR ${PROJECT_SOURCE_DIR}/_temp/${CMAKE_BUILD_TYPE})
 
 include_directories(${PROJECT_SOURCE_DIR})
 
-add_subdirectory(Common)    # Common Utilities library
-add_subdirectory(GUI)       # Gui library
-add_subdirectory(App)       # App executable
+add_subdirectory(Thirdparty/glfw)   # glfw library
+add_subdirectory(Thirdparty/Imgui)  # imgui library
+add_subdirectory(Common)            # Common Utilities library
+add_subdirectory(GUI)               # Gui library
+add_subdirectory(App)               # App executable

@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 4.0)
 
 # Libraries
-find_package(glfw3 3.4 REQUIRED)
 find_package(Vulkan REQUIRED)
-set(LIBRARIES "glfw;Vulkan::Vulkan")
+set(LIBRARIES "glfw;Vulkan::Vulkan;imgui")
 
 set(LOCAL_SOURCES
         Window/HomeworkWindow.cpp
@@ -27,21 +26,35 @@ set(LOCAL_SOURCES
         ImguiComponents/CollapsableHeader.cpp
         ImguiComponents/TreeNode.cpp
         ImguiComponents/SameLine.cpp
+)
+
+set(PUBLIC_HEADERS
+        Window/HomeworkWindow.h
+        Window/Window.h
+        Window/WindowHandler.h
+        ImguiComponents/ImguiComponent.h
+        ImguiComponents/MenuBar.h
+        ImguiComponents/MenuTab.h
+        ImguiComponents/MenuItem.h
+        ImguiComponents/Button.h
+        ImguiComponents/Textfield.h
+        ImguiComponents/RadioButton.h
+        ImguiComponents/NumberField.h
+        ImguiComponents/ImGuiID.h
+        ImguiComponents/IntSlider.h
+        ImguiComponents/Checkbox.h
+        ImguiComponents/ComboBox.h
+        ImguiComponents/ComboItem.h
+        ImguiComponents/Label.h
+        ImguiComponents/SeparatorLine.h
+        ImguiComponents/CollapsableHeader.h
+        ImguiComponents/TreeNode.h
         ImguiComponents/SameLine.h
 )
 
-# Dear ImGui
-set(IMGUI_DIR ${PROJECT_SOURCE_DIR}/Thirdparty/Imgui)
-set(IMGUI_INCLUDES ${IMGUI_DIR} ${IMGUI_DIR}/backends)
-set(IMGUI_SOURCES
-        ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
-        ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp
-        ${IMGUI_DIR}/imgui.cpp
-        ${IMGUI_DIR}/imgui_draw.cpp
-        ${IMGUI_DIR}/imgui_tables.cpp
-        ${IMGUI_DIR}/imgui_widgets.cpp
+set(PRIVATE_HEADERS
+        GUIIncludes.h
 )
-include_directories(${IMGUI_INCLUDES})
 
 # Linux
 find_package(X11 REQUIRED)
@@ -50,12 +63,12 @@ link_directories(${X11_LIBRARIES})
 
 add_library(HH_GUI
         ${LOCAL_SOURCES}
-        ${IMGUI_SOURCES}
 )
 
 target_link_libraries(HH_GUI
         HH_Common
         ${LIBRARIES}
 )
+
 # Linux
 target_link_libraries(HH_GUI ${X11_LIBRARIES})
