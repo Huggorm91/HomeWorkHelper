@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 4.0)
 
+cmake_dependent_option(IS_LINUX "Build system is Linux" ON "UNIX;NOT APPLE" OFF)
+
 # Libraries
 find_package(Vulkan REQUIRED)
 set(LIBRARIES "glfw;Vulkan::Vulkan;imgui")
@@ -58,10 +60,11 @@ set(PRIVATE_HEADERS
         GUIIncludes.h
 )
 
-# Linux
-find_package(X11 REQUIRED)
-include_directories(${X11_INCLUDE_DIR})
-link_directories(${X11_LIBRARIES})
+if (IS_LINUX)
+    find_package(X11 REQUIRED)
+    include_directories(${X11_INCLUDE_DIR})
+    link_directories(${X11_LIBRARIES})
+endif ()
 
 add_library(HH_GUI
         ${LOCAL_SOURCES}
@@ -72,5 +75,6 @@ target_link_libraries(HH_GUI
         ${LIBRARIES}
 )
 
-# Linux
-target_link_libraries(HH_GUI ${X11_LIBRARIES})
+if (IS_LINUX)
+    target_link_libraries(HH_GUI ${X11_LIBRARIES})
+endif ()
