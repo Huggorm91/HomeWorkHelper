@@ -29,6 +29,7 @@ set(LOCAL_SOURCES
         ImguiComponents/TreeNode.cpp
         ImguiComponents/SameLine.cpp
         ImguiComponents/Window.cpp
+        Window/TestWindow.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -54,6 +55,7 @@ set(PUBLIC_HEADERS
         ImguiComponents/TreeNode.h
         ImguiComponents/SameLine.h
         ImguiComponents/Window.h
+        Window/TestWindow.h
 )
 
 set(PRIVATE_HEADERS

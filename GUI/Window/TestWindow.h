@@ -1,26 +1,27 @@
-#ifndef HOMEWORKHELPER_WINDOW_H
-#define HOMEWORKHELPER_WINDOW_H
+#ifndef TEST_WINDOW_H
+#define TEST_WINDOW_H
 #include <string>
 
-struct ImDrawData;
 struct GLFWwindow;
 
-namespace HomeworkHelper {
-	// Quickly thrown together in Notepad++ while having nothing to do at work
-    class TestWindow {
-        bool rebuildSwapChain = false;
-        unsigned minImageCount = 2;
+namespace HomeworkHelper
+{
+    // Quickly thrown together in Notepad++ while having nothing to do at work
+    class TestWindow
+    {
+    public:
+        TestWindow() = default;
+        TestWindow(const std::string& aTitle, int aHeight, int aWidth, bool isFullscreen = false);
+
+        ~TestWindow();
+
+        void CreateWindow(const std::string& aTitle, int aHeight, int aWidth, bool isFullscreen = false);
+
+    private:
         GLFWwindow* windowHandle = nullptr;
-        ImDrawData* drawData = nullptr;
-		
-		void ClearWindow();
-		
-	public:
-		TestWindow() = default;
-		~TestWindow();
-		
-		CreateWindow(const std::string& aTitle, int aHeight, int aWidth, bool isFullscreen);
+
+        void ClearWindow();
     };
 } // HomeworkHelper
 
-#endif //HOMEWORKHELPER_WINDOW_H
+#endif //TEST_WINDOW_H
