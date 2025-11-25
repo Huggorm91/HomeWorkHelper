@@ -1,25 +1,33 @@
 #include "GUI/Window/WindowHandler.h"
 #include "GUI/Window/HomeworkWindow.h"
+#include "GUI/Window/TestWindow.h"
 
 int main()
 {
-    HomeworkHelper::HomeworkWindow window;
-    window.GenerateImguiContent();
+    // HomeworkHelper::HomeworkWindow window;
+    // window.GenerateImguiContent();
 
     HomeworkHelper::WindowHandler::Initialize();
-    int windowID = HomeworkHelper::WindowHandler::CreateWindow(
-        800,
-        1200,
-        "Test",
-        std::bind(&HomeworkHelper::HomeworkWindow::UpdateImguiContent, &window)
-    );
+    // int windowID = HomeworkHelper::WindowHandler::CreateWindow(
+    //     800,
+    //     1200,
+    //     "Test",
+    //     std::bind(&HomeworkHelper::HomeworkWindow::UpdateImguiContent, &window)
+    // );
 
-    if (windowID == -1) {
-        HomeworkHelper::WindowHandler::Shutdown();
-        return -1;
+    // if (windowID == -1) {
+    //     HomeworkHelper::WindowHandler::Shutdown();
+    //     return -1;
+    // }
+
+    // window.SetWindowData(HomeworkHelper::WindowHandler::GetWindowData(windowID));
+
+
+    HomeworkHelper::TestWindow small("Small Window", 400, 800);
+
+    while (true) {
+
     }
-
-    window.SetWindowData(HomeworkHelper::WindowHandler::GetWindowData(windowID));
 
     // Main loop
     while (HomeworkHelper::WindowHandler::IsAnyWindowOpen()) {
