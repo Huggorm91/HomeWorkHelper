@@ -10,12 +10,12 @@ namespace HomeworkHelper
 
     TestWindow::~TestWindow()
     {
-        ClearWindow();
+        DestroyWindow();
     }
 
     void TestWindow::CreateWindow(const std::string& aTitle, int aHeight, int aWidth, bool isFullscreen)
     {
-        ClearWindow();
+        DestroyWindow();
 
         if (isFullscreen) {
             windowHandle = glfwCreateWindow(aWidth, aHeight, aTitle.c_str(), glfwGetPrimaryMonitor(), nullptr);
@@ -25,11 +25,22 @@ namespace HomeworkHelper
         }
     }
 
-    void TestWindow::ClearWindow()
+    void TestWindow::DestroyWindow()
     {
         if (windowHandle) {
             glfwDestroyWindow(windowHandle);
             windowHandle = nullptr;
         }
+    }
+
+    void TestWindow::RenderWindow()
+    {
+        glfwMakeContextCurrent(windowHandle);
+        glfwSwapBuffers(windowHandle);
+    }
+
+    bool TestWindow::IsOpen() const
+    {
+        return !glfwWindowShouldClose(windowHandle);
     }
 } // HomeworkHelper

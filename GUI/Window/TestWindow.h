@@ -16,11 +16,14 @@ namespace HomeworkHelper
         ~TestWindow();
 
         void CreateWindow(const std::string& aTitle, int aHeight, int aWidth, bool isFullscreen = false);
+        void DestroyWindow();
+
+        void RenderWindow();
+
+        bool IsOpen() const;
 
     private:
         GLFWwindow* windowHandle = nullptr;
-
-        void ClearWindow();
     };
 } // HomeworkHelper
 
