@@ -44,7 +44,7 @@ static bool IsExtensionAvailable(const ImVector<VkExtensionProperties>& properti
     return false;
 }
 
-static void check_vk_result(const VkResult err)
+static void CheckVkResult(const VkResult err)
 {
     if (err == VK_SUCCESS) {
         return;
@@ -242,7 +242,7 @@ namespace HomeworkHelper
             vkEnumerateInstanceExtensionProperties(nullptr, &properties_count, nullptr);
             properties.resize(properties_count);
             err = vkEnumerateInstanceExtensionProperties(nullptr, &properties_count, properties.Data);
-            check_vk_result(err);
+            CheckVkResult(err);
 
             // Enable required extensions
             if (IsExtensionAvailable(properties, VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME)) {
@@ -267,7 +267,7 @@ namespace HomeworkHelper
             create_info.enabledExtensionCount = static_cast<uint32_t>(instance_extensions.Size);
             create_info.ppEnabledExtensionNames = instance_extensions.Data;
             err = vkCreateInstance(&create_info, Vulkan::localAllocator, &Vulkan::localInstance);
-            check_vk_result(err);
+            CheckVkResult(err);
 #ifdef IMGUI_IMPL_VULKAN_USE_VOLK
             volkLoadInstance(g_Instance);
 #endif
@@ -291,7 +291,7 @@ namespace HomeworkHelper
                 Vulkan::localAllocator,
                 &g_DebugReport
             );
-            check_vk_result(err);
+            CheckVkResult(err);
 #endif
         }
 
@@ -342,7 +342,7 @@ namespace HomeworkHelper
                 Vulkan::localAllocator,
                 &Vulkan::localDevice
             );
-            check_vk_result(err);
+            CheckVkResult(err);
             vkGetDeviceQueue(Vulkan::localDevice, Vulkan::localQueueFamily, 0, &Vulkan::localQueue);
         }
 
@@ -368,7 +368,7 @@ namespace HomeworkHelper
                 Vulkan::localAllocator,
                 &Vulkan::localDescriptorPool
             );
-            check_vk_result(err);
+            CheckVkResult(err);
         }
     }
 
@@ -433,7 +433,7 @@ namespace HomeworkHelper
     void WindowHandler::DestroyImgui()
     {
         const VkResult err = vkDeviceWaitIdle(Vulkan::localDevice);
-        check_vk_result(err);
+        CheckVkResult(err);
         ImGui_ImplVulkan_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
@@ -462,10 +462,9 @@ namespace HomeworkHelper
             Vulkan::localAllocator,
             &surface
         );
-        check_vk_result(err);
+        CheckVkResult(err);
 
         glfwGetFramebufferSize(outWindow.windowHandle, &aWidth, &aHeight);
-        outWindow.windowData = outWindow.windowData;
         outWindow.windowData->Surface = surface;
 
         // Check for WSI support
@@ -550,7 +549,7 @@ namespace HomeworkHelper
         init_info.PipelineInfoMain.RenderPass = outWindow.windowData->RenderPass;
         init_info.PipelineInfoMain.Subpass = 0;
         init_info.PipelineInfoMain.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
-        init_info.CheckVkResultFn = check_vk_result;
+        init_info.CheckVkResultFn = CheckVkResult;
         ImGui_ImplVulkan_Init(&init_info);
     }
 
@@ -652,26 +651,26 @@ namespace HomeworkHelper
             return;
         }
         if (err != VK_SUBOPTIMAL_KHR) {
-            check_vk_result(err);
+            CheckVkResult(err);
         }
 
         const ImGui_ImplVulkanH_Frame* fd = &outWindow.windowData->Frames[outWindow.windowData->FrameIndex];
         {
             err = vkWaitForFences(Vulkan::localDevice, 1, &fd->Fence, VK_TRUE, UINT64_MAX);
             // wait indefinitely instead of periodically checking
-            check_vk_result(err);
+            CheckVkResult(err);
 
             err = vkResetFences(Vulkan::localDevice, 1, &fd->Fence);
-            check_vk_result(err);
+            CheckVkResult(err);
         }
         {
             err = vkResetCommandPool(Vulkan::localDevice, fd->CommandPool, 0);
-            check_vk_result(err);
+            CheckVkResult(err);
             VkCommandBufferBeginInfo info = {};
             info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
             info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
             err = vkBeginCommandBuffer(fd->CommandBuffer, &info);
-            check_vk_result(err);
+            CheckVkResult(err);
         }
         {
             VkRenderPassBeginInfo info = {};
@@ -703,9 +702,9 @@ namespace HomeworkHelper
             info.pSignalSemaphores = &render_complete_semaphore;
 
             err = vkEndCommandBuffer(fd->CommandBuffer);
-            check_vk_result(err);
+            CheckVkResult(err);
             err = vkQueueSubmit(Vulkan::localQueue, 1, &info, fd->Fence);
-            check_vk_result(err);
+            CheckVkResult(err);
         }
     }
 
@@ -732,7 +731,7 @@ namespace HomeworkHelper
             return;
         }
         if (err != VK_SUBOPTIMAL_KHR) {
-            check_vk_result(err);
+            CheckVkResult(err);
         }
         outWindow.windowData->SemaphoreIndex = (outWindow.windowData->SemaphoreIndex + 1) % outWindow.windowData->
                                                SemaphoreCount;
