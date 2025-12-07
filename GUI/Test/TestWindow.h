@@ -2,11 +2,9 @@
 #define TEST_WINDOW_H
 #include "TestVulkanData.h"
 #include <string>
+#include <vector>
 
 struct GLFWwindow;
-struct VkSurfaceKHR_T;
-struct VkSwapchainKHR_T;
-struct VkPipelineCache_T;
 
 namespace HomeworkHelper
 {
@@ -17,7 +15,7 @@ namespace HomeworkHelper
         TestWindow() = default;
 
         TestWindow(
-            const VulkanData* someData,
+            const VulkanStaticData* someData,
             const std::string& aTitle,
             int aHeight,
             int aWidth,
@@ -27,7 +25,7 @@ namespace HomeworkHelper
         ~TestWindow();
 
         void CreateWindow(
-            const VulkanData* someData,
+            const VulkanStaticData* someData,
             const std::string& aTitle,
             int aHeight,
             int aWidth,
@@ -41,13 +39,36 @@ namespace HomeworkHelper
         bool IsOpen() const;
 
     private:
+        bool useDynamicRendering;
+        bool clearEnable;
+        int width;
+        int height;
+        unsigned frameIndex; // Current frame being rendered to (0 <= FrameIndex < FrameInFlightCount)
+        unsigned imageCount; // Number of simultaneous in-flight frames (returned by vkGetSwapchainImagesKHR, usually derived from min_image_count)
+        unsigned semaphoreCount; // Number of simultaneous in-flight frames + 1, to be able to use it in vkAcquireNextImageKHR
+        unsigned semaphoreIndex; // Current set of swapchain wait semaphores we're using (needs to be distinct from per frame data)
+        const VulkanStaticData* vulkanData = nullptr;
         GLFWwindow* windowHandle = nullptr;
-        VkSurfaceKHR_T* surface = nullptr;
-        VkPipelineCache_T* pipelineCache = nullptr;
-        VkSwapchainKHR_T* swapChain = nullptr;
-        const VulkanData* vulkanData = nullptr;
+        VkPipelineCache pipelineCache = nullptr;
+        VkSwapchainKHR swapchain = nullptr;
+        VkSurfaceKHR surface = nullptr;
+        VkSurfaceFormatKHR surfaceFormat;
+        VkRenderPass renderPass;
+        VkClearValue clearValue;
+        std::vector<VulkanFrameData> frames;
+        std::vector<VulkanFrameSemaphores> frameSemaphores;
 
         void CreateSwapChain();
+
+        void CreatePipeline();
+
+        void CreateFrameBuffer();
+
+        void CreateWindowCommandBuffer();
+        void SubmitWindowCommandBuffer();
+
+        void DestroyFrame(VulkanFrameData& outFrame);
+        void DestroyFrameSemaphore(VulkanFrameSemaphores& outFrameSemaphore);
     };
 } // HomeworkHelper
 

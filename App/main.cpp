@@ -50,7 +50,7 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    VulkanData vulkanData = {};
+    VulkanStaticData vulkanData = {};
     auto big = new HomeworkHelper::TestWindow(&vulkanData, "Big Window", 800, 1600);
     auto small = new HomeworkHelper::TestWindow(&vulkanData, "Small Window", 400, 800);
 

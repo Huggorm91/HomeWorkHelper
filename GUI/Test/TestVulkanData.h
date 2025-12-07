@@ -1,27 +1,21 @@
 #ifndef HOMEWORKHELPER_TESTVULKANDATA_H
 #define HOMEWORKHELPER_TESTVULKANDATA_H
-#include "TestVulkanData.h"
+#include "vulkan/vulkan.h"
 
-struct VkQueue_T;
-struct VkDevice_T;
-struct VkInstance_T;
-struct VkDescriptorPool_T;
-struct VkPhysicalDevice_T;
-struct VkAllocationCallbacks;
-
-class VulkanData
+class VulkanStaticData
 {
     unsigned queueFamily;
-    VkQueue_T* queue;
-    VkDevice_T* device = nullptr;
-    VkInstance_T* instance = nullptr;
-    VkDescriptorPool_T* descriptorPool = nullptr;
-    VkPhysicalDevice_T* physicalDevice = nullptr;
+    VkQueue queue;
+    VkDevice device = nullptr;
+    VkInstance instance = nullptr;
+    VkDescriptorPool descriptorPool = nullptr;
+    VkPhysicalDevice physicalDevice = nullptr;
     VkAllocationCallbacks* allocator = nullptr;
 
 public:
-    VulkanData();
-    ~VulkanData();
+    VulkanStaticData();
+
+    ~VulkanStaticData();
 
     explicit operator bool() const;
 
@@ -29,16 +23,31 @@ public:
 
     unsigned QueueFamily() const;
 
-    VkDevice_T* Device() const;
+    VkDevice Device() const;
 
-    VkInstance_T* Instance() const;
+    VkInstance Instance() const;
 
-    VkDescriptorPool_T* DescriptorPool() const;
+    VkDescriptorPool DescriptorPool() const;
 
-    VkPhysicalDevice_T* PhysicalDevice() const;
+    VkPhysicalDevice PhysicalDevice() const;
 
     VkAllocationCallbacks* Allocator() const;
 };
 
+struct VulkanFrameData
+{
+    VkCommandPool commandPool;
+    VkCommandBuffer commandBuffer;
+    VkFence fence;
+    VkImage backbuffer;
+    VkImageView backbufferView;
+    VkFramebuffer framebuffer;
+};
+
+struct VulkanFrameSemaphores
+{
+    VkSemaphore imageAcquiredSemaphore;
+    VkSemaphore renderCompleteSemaphore;
+};
 
 #endif //HOMEWORKHELPER_TESTVULKANDATA_H

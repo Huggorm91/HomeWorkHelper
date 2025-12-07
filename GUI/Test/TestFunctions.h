@@ -16,10 +16,7 @@ inline bool IsExtensionAvailable(const std::vector<VkExtensionProperties>& prope
 
 inline void CheckVkResult(const VkResult err)
 {
-    if (err == VK_SUCCESS) {
-        return;
-    }
-    if (err < 0) {
+    if (err < VK_SUCCESS) {
         throw std::runtime_error(std::format("[vulkan] Error: VkResult = {}", static_cast<long>(err)));
     }
 }

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-VulkanData::VulkanData()
+VulkanStaticData::VulkanStaticData()
 {
     allocator = nullptr;
     instance = VK_NULL_HANDLE;
@@ -37,18 +37,18 @@ VulkanData::VulkanData()
     CreateDescriptorPool(device, allocator, &descriptorPool);
 }
 
-VulkanData::~VulkanData()
+VulkanStaticData::~VulkanStaticData()
 {
     if (*this)
         Destroy();
 }
 
-VulkanData::operator bool() const
+VulkanStaticData::operator bool() const
 {
     return device && instance && physicalDevice;
 }
 
-void VulkanData::Destroy()
+void VulkanStaticData::Destroy()
 {
     vkDestroyDescriptorPool(device, descriptorPool, allocator);
     descriptorPool = nullptr;
@@ -63,32 +63,32 @@ void VulkanData::Destroy()
     physicalDevice = nullptr;
 }
 
-unsigned VulkanData::QueueFamily() const
+unsigned VulkanStaticData::QueueFamily() const
 {
     return queueFamily;
 }
 
-VkDevice_T* VulkanData::Device() const
+VkDevice_T* VulkanStaticData::Device() const
 {
     return device;
 }
 
-VkInstance_T* VulkanData::Instance() const
+VkInstance_T* VulkanStaticData::Instance() const
 {
     return instance;
 }
 
-VkDescriptorPool_T* VulkanData::DescriptorPool() const
+VkDescriptorPool_T* VulkanStaticData::DescriptorPool() const
 {
     return descriptorPool;
 }
 
-VkPhysicalDevice_T* VulkanData::PhysicalDevice() const
+VkPhysicalDevice_T* VulkanStaticData::PhysicalDevice() const
 {
     return physicalDevice;
 }
 
-VkAllocationCallbacks* VulkanData::Allocator() const
+VkAllocationCallbacks* VulkanStaticData::Allocator() const
 {
     return allocator;
 }
