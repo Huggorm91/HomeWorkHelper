@@ -59,11 +59,9 @@ namespace HomeworkHelper
         std::vector<VulkanFrameSemaphores> frameSemaphores;
 
         void CreateSwapChain();
-
+        void CreateShaderModules();
         void CreatePipeline();
-
         void CreateFrameBuffer();
-
         void CreateWindowCommandBuffer();
         void SubmitWindowCommandBuffer();
 
