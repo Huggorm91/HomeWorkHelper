@@ -1,0 +1,46 @@
+#ifndef HOMEWORKHELPER_MATHGENERATOR_H
+#define HOMEWORKHELPER_MATHGENERATOR_H
+#include <memory>
+#include <vector>
+#include <random>
+#include "Solvers/SolverBase.h"
+
+namespace Math
+{
+    class MathGenerator
+    {
+    public:
+        MathGenerator();
+        MathGenerator(const std::string_view& aSymbolList, int aMin, int aMax, bool useFloats = false);
+        ~MathGenerator() = default;
+
+        void AddGenerator(char aSymbol);
+        void AddGenerators(const std::string_view& aSymbolList);
+        void ClearGenerators();
+
+        void SetExtremes(int aMin, int aMax);
+
+        void GenerateQuestion();
+        std::string_view GetQuestion() const;
+
+        bool CheckAnswer(int anAnswer);
+        bool CheckAnswer(float anAnswer);
+
+    private:
+        bool isUsingFloats;
+        int myMin;
+        int myMax;
+
+        union
+        {
+            std::uniform_int_distribution<int> i;
+            std::uniform_real_distribution<float> f;
+        } myNumberGenerator;
+
+        std::string_view myQuestion;
+        std::vector<std::unique_ptr<SolverBase>> mySolvers;
+        std::mt19937 myEngine;
+    };
+} // Math
+
+#endif //HOMEWORKHELPER_MATHGENERATOR_H
