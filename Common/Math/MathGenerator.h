@@ -20,7 +20,7 @@ namespace Math
         void SetExtremes(int aMin, int aMax);
 
         void GenerateQuestion();
-        std::string_view GetQuestion() const;
+        std::string GetQuestion() const;
 
         bool CheckAnswer(int anAnswer);
         bool CheckAnswer(float anAnswer);
@@ -31,7 +31,7 @@ namespace Math
         int myMax;
 		int myCurrentSolverIndex;
         std::uniform_int_distribution<int> myNumberGenerator; // Used for randomizing what solver to use.
-        std::string_view myQuestion;
+        std::string myQuestion;
         std::vector<std::unique_ptr<SolverBase>> mySolvers;
         std::mt19937 myEngine;
     };

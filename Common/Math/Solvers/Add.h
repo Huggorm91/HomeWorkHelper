@@ -7,13 +7,13 @@ namespace Math
     class Add: public SolverBase
     {
     public:
-        Add() = default;
-        Add(int aFirst, int aSecond);
-        Add(float aFirst, float aSecond);
+        Add(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats);
         ~Add() override = default;
 
         int GetAnswerInt() const override;
         float GetAnswerFloat() const override;
+
+        char GetSymbol() const override;
     };
 } // Math
 

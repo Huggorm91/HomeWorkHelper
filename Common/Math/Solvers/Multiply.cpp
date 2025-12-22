@@ -3,29 +3,30 @@
 
 namespace Math
 {
-    Multiply::Multiply(int aFirst, int aSecond): SolverBase(aFirst, aSecond)
-    {
-    }
-
-    Multiply::Multiply(float aFirst, float aSecond): SolverBase(aFirst, aSecond)
+    Multiply::Multiply(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats): SolverBase(anEngine, aMin, aMax, aIsUsingFloats)
     {
     }
 
     int Multiply::GetAnswerInt() const
     {
         if (isUsingFloats) {
-            return static_cast<int>(std::round(firstNumber.f * secondNumber.f));
+            return static_cast<int>(std::round(myFirstNumber.f * mySecondNumber.f));
         }
 
-        return firstNumber.i * secondNumber.i;
+        return myFirstNumber.i * mySecondNumber.i;
     }
 
     float Multiply::GetAnswerFloat() const
     {
         if (isUsingFloats) {
-            return firstNumber.f * secondNumber.f;
+            return myFirstNumber.f * mySecondNumber.f;
         }
 
-        return static_cast<float>(firstNumber.i * secondNumber.i);
+        return static_cast<float>(myFirstNumber.i * mySecondNumber.i);
+    }
+
+    char Multiply::GetSymbol() const
+    {
+        return '*';
     }
 } // Math

@@ -3,29 +3,45 @@
 
 namespace Math
 {
-    Divide::Divide(int aFirst, int aSecond): SolverBase(aFirst, aSecond)
-    {
-    }
-
-    Divide::Divide(float aFirst, float aSecond): SolverBase(aFirst, aSecond)
+    Divide::Divide(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats): SolverBase(anEngine, aMin, aMax, aIsUsingFloats)
     {
     }
 
     int Divide::GetAnswerInt() const
     {
         if (isUsingFloats) {
-            return static_cast<int>(std::round(firstNumber.f / secondNumber.f));
+            return static_cast<int>(std::round(myFirstNumber.f / mySecondNumber.f));
         }
 
-        return firstNumber.i / secondNumber.i;
+        return myFirstNumber.i / mySecondNumber.i;
     }
 
     float Divide::GetAnswerFloat() const
     {
         if (isUsingFloats) {
-            return firstNumber.f / secondNumber.f;
+            return myFirstNumber.f / mySecondNumber.f;
         }
 
-        return static_cast<float>(firstNumber.i / secondNumber.i);
+        return static_cast<float>(myFirstNumber.i / mySecondNumber.i);
+    }
+
+    char Divide::GetSymbol() const
+    {
+        return '/';
+    }
+
+    void Divide::GenerateNumbers()
+    {
+        SolverBase::GenerateNumbers();
+        if (isUsingFloats) {
+            if (mySecondNumber.f == 0.f) {
+                mySecondNumber.f = 2.f;
+            }
+        }
+        else {
+            if (mySecondNumber.i == 0) {
+                mySecondNumber.i = 2;
+            }
+        }
     }
 } // Math

@@ -7,39 +7,15 @@ namespace Math
     class SolverBase
     {
     public:
-        SolverBase(std::mt19937& anEngine, int aMin, int aMax) : 
-						isUsingFloats(false),
-						myNumberGenerator(aMin, aMax),
-						myEngine(anEngine)
-        {
-			myFirstNumber.i = myNumberGenerator(myEngine);
-			mySecondNumber.i = myNumberGenerator.i(myEngine);
-        }
-
-        SolverBase(std::mt19937& anEngine, float aMin, float aMax) : 
-						isUsingFloats(true),
-						myNumberGenerator{.f(aMin, aMax)},
-						myEngine(anEngine)
-        {
-			myFirstNumber.f = myNumberGenerator.f(myEngine);
-			mySecondNumber.f = myNumberGenerator.f(myEngine);
-        }
+        SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats);
 
         virtual ~SolverBase() = default;
 
-        bool Solve(int anAnswer) const
-        {
-            return anAnswer == GetAnswerInt();
-        }
+        bool Solve(int anAnswer) const;
 
-        bool Solve(float anAnswer) const
-        {
-            return anAnswer == GetAnswerFloat();
-        }
+        bool Solve(float anAnswer) const;
 		
-		virtual std::string_view GenerateEquation(){
-			return myFirstNumber + " " + GetSymbol() + " " + mySecondNumber;
-		}
+		virtual std::string GenerateEquation();
 
         virtual int GetAnswerInt() const = 0;
 
@@ -61,18 +37,9 @@ namespace Math
             std::uniform_real_distribution<float> f;
         } myNumberGenerator;
 		
-		std::mt19937& myEngine
+		std::mt19937& myEngine;
 		
-		virtual void GenerateNumbers(){
-			if (isUsingFloats) {
-				myFirstNumber.f = myNumberGenerator.f(myEngine);
-				mySecondNumber.f = myNumberGenerator.f(myEngine);
-			}
-			else {
-				myFirstNumber.i = myNumberGenerator.i(myEngine);
-				mySecondNumber.i = myNumberGenerator.i(myEngine);
-			}
-		}
+		virtual void GenerateNumbers();
     };
 } // Math
 

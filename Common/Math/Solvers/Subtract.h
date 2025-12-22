@@ -7,13 +7,13 @@ namespace Math
     class Subtract : public SolverBase
     {
     public:
-        Subtract() = default;
-        Subtract(int aFirst, int aSecond);
-        Subtract(float aFirst, float aSecond);
+        Subtract(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats);
         ~Subtract() override = default;
 
         int GetAnswerInt() const override;
         float GetAnswerFloat() const override;
+
+        char GetSymbol() const override;
     };
 } // Math
 

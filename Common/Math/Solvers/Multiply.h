@@ -7,13 +7,13 @@ namespace Math
     class Multiply : public SolverBase
     {
     public:
-        Multiply() = default;
-        Multiply(int aFirst, int aSecond);
-        Multiply(float aFirst, float aSecond);
+        Multiply(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats);
         ~Multiply() override = default;
 
         int GetAnswerInt() const override;
         float GetAnswerFloat() const override;
+
+        char GetSymbol() const override;
     };
 } // Math
 

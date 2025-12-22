@@ -7,6 +7,7 @@ set(LOCAL_SOURCES
         Math/Solvers/Multiply.cpp
         Math/Solvers/Divide.cpp
         Math/MathGenerator.cpp
+        Math/Solvers/SolverBase.cpp
 )
 set(PUBLIC_HEADERS
         Math/Solvers/Add.h

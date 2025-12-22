@@ -7,13 +7,16 @@ namespace Math
     class Divide : public SolverBase
     {
     public:
-        Divide() = default;
-        Divide(int aFirst, int aSecond);
-        Divide(float aFirst, float aSecond);
+        Divide(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats);
         ~Divide() override = default;
 
         int GetAnswerInt() const override;
         float GetAnswerFloat() const override;
+
+        char GetSymbol() const override;
+
+        private:
+        void GenerateNumbers() override;
     };
 } // Math
 
