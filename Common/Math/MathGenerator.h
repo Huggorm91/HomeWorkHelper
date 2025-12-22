@@ -2,7 +2,6 @@
 #define HOMEWORKHELPER_MATHGENERATOR_H
 #include <memory>
 #include <vector>
-#include <random>
 #include "Solvers/SolverBase.h"
 
 namespace Math
@@ -30,13 +29,8 @@ namespace Math
         bool isUsingFloats;
         int myMin;
         int myMax;
-
-        union
-        {
-            std::uniform_int_distribution<int> i;
-            std::uniform_real_distribution<float> f;
-        } myNumberGenerator;
-
+		int myCurrentSolverIndex;
+        std::uniform_int_distribution<int> myNumberGenerator; // Used for randomizing what solver to use.
         std::string_view myQuestion;
         std::vector<std::unique_ptr<SolverBase>> mySolvers;
         std::mt19937 myEngine;

@@ -10,7 +10,7 @@ namespace Math
     MathGenerator::MathGenerator() : isUsingFloats(false),
                                      myMin(0),
                                      myMax(0),
-                                     myNumberGenerator{},
+                                     myNumberGenerator(),
                                      myEngine(std::random_device{}())
     {
     }
@@ -19,9 +19,10 @@ namespace Math
         isUsingFloats(useFloats),
         myMin(aMin),
         myMax(aMax),
-        myNumberGenerator{},
+        myNumberGenerator(),
         myEngine(std::random_device{}())
     {
+		AddGenerators(aSymbolList);
     }
 
     void MathGenerator::AddGenerator(char aSymbol)
@@ -40,6 +41,8 @@ namespace Math
             firstNumber.i = myNumberGenerator.i(myEngine);
             secondNumber.i = myNumberGenerator.i(myEngine);
         }
+		
+		myNumberGenerator = std::uniform_int_distribution<int>(0, mySolvers.count());
 
         switch (aSymbol) {
             case '+': {
@@ -91,10 +94,13 @@ namespace Math
 
     void MathGenerator::AddGenerators(const std::string_view& aSymbolList)
     {
+		// Loop through string and add each symbol using AddGenerator()
     }
 
     void MathGenerator::ClearGenerators()
     {
+		mySolvers.clear();
+		myNumberGenerator. // Reset
     }
 
     void MathGenerator::SetExtremes(int aMin, int aMax)
@@ -117,17 +123,22 @@ namespace Math
 
     void MathGenerator::GenerateQuestion()
     {
+		myCurrentSolverIndex = myNumberGenerator(myEngine);
+		myQuestion = mySolvers[myCurrentSolverIndex].GenerateEquation();
     }
 
     std::string_view MathGenerator::GetQuestion() const
     {
+		return myQuestion;
     }
 
     bool MathGenerator::CheckAnswer(int anAnswer)
     {
+		return mySolvers[myCurrentSolverIndex].Solve(anAnswer);
     }
 
     bool MathGenerator::CheckAnswer(float anAnswer)
     {
+		return mySolvers[myCurrentSolverIndex].Solve(anAnswer);
     }
 } // Math
