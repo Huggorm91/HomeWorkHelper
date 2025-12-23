@@ -22,8 +22,8 @@ namespace Math
         void GenerateQuestion();
         std::string GetQuestion() const;
 
-        bool CheckAnswer(int anAnswer);
-        bool CheckAnswer(float anAnswer);
+        bool CheckAnswer(int anAnswer) const;
+        bool CheckAnswer(float anAnswer) const;
 
     private:
         bool myIsUsingFloats;

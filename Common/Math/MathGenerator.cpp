@@ -7,11 +7,12 @@
 
 namespace Math
 {
-    MathGenerator::MathGenerator() : myIsUsingFloats(false),
-                                     myMin(0),
-                                     myMax(0),
-                                     myCurrentSolverIndex(0),
-                                     myEngine(std::random_device{}())
+    MathGenerator::MathGenerator() :
+        myIsUsingFloats(false),
+        myMin(0),
+        myMax(0),
+        myCurrentSolverIndex(0),
+        myEngine(std::random_device{}())
     {
     }
 
@@ -22,28 +23,28 @@ namespace Math
         myCurrentSolverIndex(0),
         myEngine(std::random_device{}())
     {
-		AddGenerators(aSymbolList);
+        AddGenerators(aSymbolList);
     }
 
     void MathGenerator::AddGenerator(char aSymbol)
     {
-		myNumberGenerator = std::uniform_int_distribution<int>(0, static_cast<int>(mySolvers.size()));
+        myNumberGenerator = std::uniform_int_distribution<int>(0, static_cast<int>(mySolvers.size()));
 
         switch (aSymbol) {
             case '+': {
-                    mySolvers.emplace_back(std::make_unique<Add>(myEngine, myMin, myMax, myIsUsingFloats));
+                mySolvers.emplace_back(std::make_unique<Add>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             case '-': {
-                    mySolvers.emplace_back(std::make_unique<Subtract>(myEngine, myMin, myMax, myIsUsingFloats));
+                mySolvers.emplace_back(std::make_unique<Subtract>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             case '*': {
-                    mySolvers.emplace_back(std::make_unique<Multiply>(myEngine, myMin, myMax, myIsUsingFloats));
+                mySolvers.emplace_back(std::make_unique<Multiply>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             case '/': {
-                    mySolvers.emplace_back(std::make_unique<Divide>(myEngine, myMin, myMax, myIsUsingFloats));
+                mySolvers.emplace_back(std::make_unique<Divide>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             default:
@@ -53,15 +54,15 @@ namespace Math
 
     void MathGenerator::AddGenerators(const std::string_view& aSymbolList)
     {
-		for(char symbol : aSymbolList){
-			AddGenerator(symbol);
-		}
+        for (char symbol: aSymbolList) {
+            AddGenerator(symbol);
+        }
     }
 
     void MathGenerator::ClearGenerators()
     {
-		mySolvers.clear();
-		myNumberGenerator.reset();
+        mySolvers.clear();
+        myNumberGenerator.reset();
     }
 
     void MathGenerator::SetExtremes(int aMin, int aMax)
@@ -71,29 +72,29 @@ namespace Math
         if (myMin > myMax) {
             std::swap(myMin, myMax);
         }
-		for(auto& solver : mySolvers){
-			solver->SetExtremes(myMin, myMax);
-		}
+        for (auto& solver: mySolvers) {
+            solver->SetExtremes(myMin, myMax);
+        }
     }
 
     void MathGenerator::GenerateQuestion()
     {
-		myCurrentSolverIndex = myNumberGenerator(myEngine);
-		myQuestion = mySolvers[myCurrentSolverIndex]->GenerateEquation();
+        myCurrentSolverIndex = myNumberGenerator(myEngine);
+        myQuestion = mySolvers[myCurrentSolverIndex]->GenerateEquation();
     }
 
     std::string MathGenerator::GetQuestion() const
     {
-		return myQuestion;
+        return myQuestion;
     }
 
-    bool MathGenerator::CheckAnswer(int anAnswer)
+    bool MathGenerator::CheckAnswer(int anAnswer) const
     {
-		return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
+        return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
     }
 
-    bool MathGenerator::CheckAnswer(float anAnswer)
+    bool MathGenerator::CheckAnswer(float anAnswer) const
     {
-		return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
+        return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
     }
 } // Math

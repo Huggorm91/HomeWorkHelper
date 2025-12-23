@@ -7,7 +7,7 @@ namespace Math
     class SolverBase
     {
     public:
-        SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool amyIsUsingFloats);
+        SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool anIsUsingFloats);
 
         virtual ~SolverBase() = default;
 		

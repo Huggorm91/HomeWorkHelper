@@ -9,7 +9,7 @@ namespace Math
 
     int Divide::GetAnswerInt() const
     {
-        if (isUsingFloats) {
+        if (myIsUsingFloats) {
             return static_cast<int>(std::round(myFirstNumber.f / mySecondNumber.f));
         }
 
@@ -18,11 +18,11 @@ namespace Math
 
     float Divide::GetAnswerFloat() const
     {
-        if (isUsingFloats) {
+        if (myIsUsingFloats) {
             return myFirstNumber.f / mySecondNumber.f;
         }
 
-        return static_cast<float>(myFirstNumber.i / mySecondNumber.i);
+        return static_cast<float>(myFirstNumber.i) / static_cast<float>(mySecondNumber.i);
     }
 
     char Divide::GetSymbol() const
@@ -33,14 +33,14 @@ namespace Math
     void Divide::GenerateNumbers()
     {
         SolverBase::GenerateNumbers();
-        if (isUsingFloats) {
-            if (mySecondNumber.f == 0.f) {
-                mySecondNumber.f = 2.f;
+        if (myIsUsingFloats) {
+            while(mySecondNumber.f == 0.f) {
+                mySecondNumber.f = myNumberGenerator.f(myEngine);
             }
         }
         else {
-            if (mySecondNumber.i == 0) {
-                mySecondNumber.i = 2;
+            while(mySecondNumber.i == 0) {
+                mySecondNumber.i = myNumberGenerator.i(myEngine);
             }
         }
     }

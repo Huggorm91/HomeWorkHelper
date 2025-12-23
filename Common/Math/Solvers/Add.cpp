@@ -9,7 +9,7 @@ namespace Math
 
     int Add::GetAnswerInt() const
     {
-        if (isUsingFloats) {
+        if (myIsUsingFloats) {
             return static_cast<int>(std::round(myFirstNumber.f + mySecondNumber.f));
         }
 
@@ -18,7 +18,7 @@ namespace Math
 
     float Add::GetAnswerFloat() const
     {
-        if (isUsingFloats) {
+        if (myIsUsingFloats) {
             return myFirstNumber.f + mySecondNumber.f;
         }
 
