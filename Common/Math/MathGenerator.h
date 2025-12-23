@@ -26,7 +26,7 @@ namespace Math
         bool CheckAnswer(float anAnswer);
 
     private:
-        bool isUsingFloats;
+        bool myIsUsingFloats;
         int myMin;
         int myMax;
 		int myCurrentSolverIndex;

@@ -7,9 +7,11 @@ namespace Math
     class SolverBase
     {
     public:
-        SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats);
+        SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool amyIsUsingFloats);
 
         virtual ~SolverBase() = default;
+		
+		void SetExtremes(int aMin, int aMax);
 
         bool Solve(int anAnswer) const;
 
@@ -24,7 +26,7 @@ namespace Math
 		virtual char GetSymbol() const = 0;
 		
 	protected:
-        bool isUsingFloats;
+        bool myIsUsingFloats;
         union
         {
             int i;

@@ -7,7 +7,7 @@
 
 namespace Math
 {
-    MathGenerator::MathGenerator() : isUsingFloats(false),
+    MathGenerator::MathGenerator() : myIsUsingFloats(false),
                                      myMin(0),
                                      myMax(0),
                                      myCurrentSolverIndex(0),
@@ -16,7 +16,7 @@ namespace Math
     }
 
     MathGenerator::MathGenerator(const std::string_view& aSymbolList, int aMin, int aMax, bool useFloats) :
-        isUsingFloats(useFloats),
+        myIsUsingFloats(useFloats),
         myMin(aMin),
         myMax(aMax),
         myCurrentSolverIndex(0),
@@ -31,19 +31,19 @@ namespace Math
 
         switch (aSymbol) {
             case '+': {
-                    mySolvers.emplace_back(std::make_unique<Add>(myEngine, myMin, myMax, isUsingFloats));
+                    mySolvers.emplace_back(std::make_unique<Add>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             case '-': {
-                    mySolvers.emplace_back(std::make_unique<Subtract>(myEngine, myMin, myMax, isUsingFloats));
+                    mySolvers.emplace_back(std::make_unique<Subtract>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             case '*': {
-                    mySolvers.emplace_back(std::make_unique<Multiply>(myEngine, myMin, myMax, isUsingFloats));
+                    mySolvers.emplace_back(std::make_unique<Multiply>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             case '/': {
-                    mySolvers.emplace_back(std::make_unique<Divide>(myEngine, myMin, myMax, isUsingFloats));
+                    mySolvers.emplace_back(std::make_unique<Divide>(myEngine, myMin, myMax, myIsUsingFloats));
                 break;
             }
             default:
@@ -53,7 +53,9 @@ namespace Math
 
     void MathGenerator::AddGenerators(const std::string_view& aSymbolList)
     {
-		// Loop through string and add each symbol using AddGenerator()
+		for(char symbol : aSymbolList){
+			AddGenerator(symbol);
+		}
     }
 
     void MathGenerator::ClearGenerators()
@@ -69,6 +71,9 @@ namespace Math
         if (myMin > myMax) {
             std::swap(myMin, myMax);
         }
+		for(auto& solver : mySolvers){
+			solver->SetExtremes(myMin, myMax);
+		}
     }
 
     void MathGenerator::GenerateQuestion()

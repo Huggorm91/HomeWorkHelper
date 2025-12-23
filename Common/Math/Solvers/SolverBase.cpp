@@ -2,17 +2,22 @@
 
 namespace Math
 {
-    SolverBase::SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool aIsUsingFloats) :
-        isUsingFloats(aIsUsingFloats),
+    SolverBase::SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool amyIsUsingFloats) :
+        myIsUsingFloats(amyIsUsingFloats),
         myFirstNumber{},
         mySecondNumber{},
         myNumberGenerator{},
         myEngine(anEngine)
     {
+        SetExtremes(aMin, aMax);
+    }
+	
+	void SolverBase::SetExtremes(int aMin, int aMax)
+    {
         if (aMin > aMax) {
             std::swap(aMin, aMax);
         }
-        if (isUsingFloats) {
+        if (myIsUsingFloats) {
             myNumberGenerator.f = std::uniform_real_distribution<float>(static_cast<float>(aMin), static_cast<float>(aMax));
         }
         else {
@@ -33,7 +38,7 @@ namespace Math
     std::string SolverBase::GenerateEquation()
     {
         GenerateNumbers();
-        if (isUsingFloats) {
+        if (myIsUsingFloats) {
             return std::to_string(myFirstNumber.f) + " " + GetSymbol() + " " + std::to_string(mySecondNumber.f);
         }
         return std::to_string(myFirstNumber.i) + " " + GetSymbol() + " " + std::to_string(mySecondNumber.i);
@@ -41,7 +46,7 @@ namespace Math
 
     void SolverBase::GenerateNumbers()
     {
-        if (isUsingFloats) {
+        if (myIsUsingFloats) {
             myFirstNumber.f = myNumberGenerator.f(myEngine);
             mySecondNumber.f = myNumberGenerator.f(myEngine);
         }
