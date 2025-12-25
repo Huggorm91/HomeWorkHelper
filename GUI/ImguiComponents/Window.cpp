@@ -1,19 +1,32 @@
 #include "Window.h"
+
+#include <utility>
 #include "imgui.h"
 
 namespace HomeworkHelper::Component
 {
-    Window::Window(const std::string& aLabel, bool* aIsOpen, Common::Vec2 aSize, Common::Vec2 aPosition) :
+    Window::Window() : myFlags(WindowFlags::None),
+                       myIsOpen(nullptr)
+    {
+    }
+
+    Window::Window(std::string aLabel, bool* aIsOpen, Common::Vec2 aSize, Common::Vec2 aPosition, int someFlags) :
+        myFlags(someFlags),
         myIsOpen(aIsOpen),
         mySize(aSize),
         myPosition(aPosition),
-        myLabel(aLabel)
+        myLabel(std::move(aLabel))
     {
     }
 
     void Window::UpdateContent()
     {
-        ImGui::SetNextWindowPos(ImVec2(myPosition.x, myPosition.y));
+        const ImGuiCond posCond = myFlags & WindowFlags::SetPositionEveryStart ?
+                                ImGuiCond_Once :
+                                myFlags & WindowFlags::SetPositionFirstTime ?
+                                    ImGuiCond_FirstUseEver :
+                                    ImGuiCond_None;
+        ImGui::SetNextWindowPos(ImVec2(myPosition.x, myPosition.y), posCond);
         ImVec2 size = {mySize.x, mySize.y};
         if (mySize.x == 0.f || mySize.y == 0.f) {
             ImVec2 fullSize;
@@ -31,11 +44,18 @@ namespace HomeworkHelper::Component
                 size.y = fullSize.y;
             }
         }
-        ImGui::SetNextWindowSize(size);
+        const ImGuiCond sizeCond = myFlags & WindowFlags::SetSizeEveryStart ?
+                                ImGuiCond_Once :
+                                myFlags & WindowFlags::SetSizeFirstTime ?
+                                    ImGuiCond_FirstUseEver :
+                                    ImGuiCond_None;
+        ImGui::SetNextWindowSize(size, sizeCond);
 
         // Only render window if myIsOpen is nullptr or true
         if (myIsOpen == nullptr || *myIsOpen) {
-            ImGui::Begin(myLabel.c_str(), myIsOpen);
+            ImGuiWindowFlags flags = myFlags & WindowFlags::RemoveTopBar ? ImGuiWindowFlags_NoTitleBar : ImGuiWindowFlags_None;
+            flags |= myFlags & WindowFlags::DisableResize ? ImGuiWindowFlags_NoResize : ImGuiWindowFlags_None;
+            ImGui::Begin(myLabel.c_str(), myIsOpen, flags );
             for (auto& item: myItems) {
                 item->UpdateContent();
             }

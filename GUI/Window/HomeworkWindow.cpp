@@ -16,7 +16,8 @@ namespace HomeworkHelper
     void HomeworkWindow::GenerateImguiContent()
     {
         // Temporary content to test the system
-        auto& baseWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Hello, world!"));
+        int flags = Component::WindowFlags::RemoveTopBar | Component::WindowFlags::DisableResize | Component::WindowFlags::SetPositionEveryStart | Component::WindowFlags::SetSizeEveryStart;
+        auto& baseWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Hello, world!", nullptr, Common::Vec2{}, Common::Vec2{}, flags));
         auto& window = dynamic_cast<Component::Window&>(*baseWindow);
 
         window.AddChildNode(std::make_unique<Component::Label>("This is some useful text."));
@@ -33,7 +34,7 @@ namespace HomeworkHelper
             1000.0f / ImGui::GetIO().Framerate,
             ImGui::GetIO().Framerate);}));
 
-        auto& baseAnotherWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Another Window", &show_another_window, Common::Vec2{250.f, 100.f}));
+        auto& baseAnotherWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Another Window", &show_another_window, Common::Vec2{250.f, 100.f}, Common::Vec2{}, Component::WindowFlags::SetPositionEveryStart | Component::WindowFlags::SetSizeEveryStart));
         auto& anotherWindow = dynamic_cast<Component::Window&>(*baseAnotherWindow);
         anotherWindow.AddChildNode(std::make_unique<Component::Label>("Hello from another window!"));
         anotherWindow.AddChildNode(std::make_unique<Component::Button>("Close Me", Common::Vec2(), [this]{show_another_window = false;}));
