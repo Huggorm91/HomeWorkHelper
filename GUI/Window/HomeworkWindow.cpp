@@ -33,7 +33,7 @@ namespace HomeworkHelper
             1000.0f / ImGui::GetIO().Framerate,
             ImGui::GetIO().Framerate);}));
 
-        auto& baseAnotherWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Another Window", &show_another_window));
+        auto& baseAnotherWindow = myComponents.emplace_back(std::make_unique<Component::Window>("Another Window", &show_another_window, Common::Vec2{250.f, 100.f}));
         auto& anotherWindow = dynamic_cast<Component::Window&>(*baseAnotherWindow);
         anotherWindow.AddChildNode(std::make_unique<Component::Label>("Hello from another window!"));
         anotherWindow.AddChildNode(std::make_unique<Component::Button>("Close Me", Common::Vec2(), [this]{show_another_window = false;}));

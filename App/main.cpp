@@ -10,7 +10,7 @@ int main()
     int windowID = HomeworkHelper::WindowHandler::CreateWindow(
         800,
         1200,
-        "Test",
+        "Homework Helper",
         std::bind(&HomeworkHelper::HomeworkWindow::UpdateImguiContent, &window)
     );
 
