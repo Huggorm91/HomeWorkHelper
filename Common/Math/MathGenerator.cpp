@@ -59,10 +59,33 @@ namespace Math
         }
     }
 
+    void MathGenerator::RemoveGenerator(char aSymbol)
+    {
+        int indexToRemove = -1;
+        for (int i = 0; i < mySolvers.size(); ++i) {
+            if (mySolvers[i]->GetSymbol() == aSymbol) {
+                indexToRemove = i;
+            }
+        }
+        if (indexToRemove != -1) {
+            mySolvers.erase(mySolvers.begin() + indexToRemove);
+            myNumberGenerator = std::uniform_int_distribution<int>(0, std::max(static_cast<int>(mySolvers.size()-1), 0));
+
+            if (myCurrentSolverIndex == indexToRemove) {
+                GenerateQuestion();
+            }
+            else if (myCurrentSolverIndex > indexToRemove) {
+                myCurrentSolverIndex--;
+            }
+        }
+    }
+
     void MathGenerator::ClearGenerators()
     {
         mySolvers.clear();
         myNumberGenerator.reset();
+        myQuestion = "";
+        myCurrentSolverIndex = -1;
     }
 
     void MathGenerator::SetExtremes(int aMin, int aMax)
@@ -77,10 +100,35 @@ namespace Math
         }
     }
 
+    int MathGenerator::GetMin() const
+    {
+        return myMin;
+    }
+
+    int MathGenerator::GetMax() const
+    {
+        return myMax;
+    }
+
+    void MathGenerator::SetUseFloats(bool aUseFloats)
+    {
+        myIsUsingFloats = aUseFloats;
+        std::string symbols;
+        for (const auto& solver: mySolvers) {
+            symbols += solver->GetSymbol();
+        }
+        ClearGenerators();
+        AddGenerators(symbols);
+    }
+
     void MathGenerator::GenerateQuestion()
     {
-        myCurrentSolverIndex = myNumberGenerator(myEngine);
-        myQuestion = mySolvers[myCurrentSolverIndex]->GenerateEquation();
+        myQuestion = "";
+        myCurrentSolverIndex = -1;
+        if (!mySolvers.empty()) {
+            myCurrentSolverIndex = myNumberGenerator(myEngine);
+            myQuestion = mySolvers[myCurrentSolverIndex]->GenerateEquation();
+        }
     }
 
     std::string MathGenerator::GetQuestion() const
@@ -88,13 +136,35 @@ namespace Math
         return myQuestion;
     }
 
+    int MathGenerator::GetAnswerInt() const
+    {
+        if (myCurrentSolverIndex >= 0) {
+            return mySolvers[myCurrentSolverIndex]->GetAnswerInt();
+        }
+        return false;
+    }
+
+    float MathGenerator::GetAnswerFloat() const
+    {
+        if (myCurrentSolverIndex >= 0) {
+            return mySolvers[myCurrentSolverIndex]->GetAnswerFloat();
+        }
+        return false;
+    }
+
     bool MathGenerator::CheckAnswer(int anAnswer) const
     {
-        return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
+        if (myCurrentSolverIndex >= 0) {
+            return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
+        }
+        return false;
     }
 
     bool MathGenerator::CheckAnswer(float anAnswer) const
     {
-        return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
+        if (myCurrentSolverIndex >= 0) {
+            return mySolvers[myCurrentSolverIndex]->Solve(anAnswer);
+        }
+        return false;
     }
 } // Math
