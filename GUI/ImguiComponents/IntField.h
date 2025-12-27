@@ -1,5 +1,5 @@
-#ifndef HOMEWORKHELPER_TEXTFIELD_H
-#define HOMEWORKHELPER_TEXTFIELD_H
+#ifndef HOMEWORKHELPER_INTFIELD_H
+#define HOMEWORKHELPER_INTFIELD_H
 #include <functional>
 #include <string>
 
@@ -7,28 +7,28 @@
 
 namespace HomeworkHelper::Component
 {
-    class Textfield : public ImguiComponent
+    class IntField : public ImguiComponent
     {
     public:
-        Textfield();
+        IntField();
         ///
         /// @param aLabel The displayed label
         /// @param aOutput The output of the field
         /// @param aCallback This function is called when the value is changed
-        Textfield(std::string aLabel, std::string* aOutput, const std::function<void()>& aCallback = nullptr);
-        ~Textfield() override = default;
+        IntField(std::string aLabel, int* aOutput, const std::function<void()>& aCallback = nullptr);
+        ~IntField() override = default;
 
         void UpdateContent() override;
 
-        void SetOutput(std::string* aOutput);
+        void SetOutput(int* aOutput);
         void SetLabel(const std::string& aLabel);
         void SetCallback(const std::function<void()>& aCallback);
 
     private:
-        std::string* myOutput;
+        int* myOutput;
         std::string myLabel;
         std::function<void()> myCallback;
     };
 } // HomeworkHelper::Component
 
-#endif //HOMEWORKHELPER_TEXTFIELD_H
+#endif //HOMEWORKHELPER_INTFIELD_H

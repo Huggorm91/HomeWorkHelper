@@ -1,6 +1,7 @@
 #include "IntSlider.h"
 #include "imgui.h"
 #include <cassert>
+#include <utility>
 
 namespace HomeworkHelper::Component
 {
@@ -10,11 +11,12 @@ namespace HomeworkHelper::Component
     {
     }
 
-    IntSlider::IntSlider(const std::string& aLabel, int* aOutput, int aMin, int aMax) :
+    IntSlider::IntSlider(std::string aLabel, int* aOutput, int aMin, int aMax, const std::function<void()>& aCallback) :
         myMin(aMin),
         myMax(aMax),
         myOutput(aOutput),
-        myLabel(aLabel)
+        myLabel(std::move(aLabel)),
+        myCallback(aCallback)
     {
     }
 
@@ -42,5 +44,10 @@ namespace HomeworkHelper::Component
     void IntSlider::SetLabel(const std::string& aLabel)
     {
         myLabel = aLabel;
+    }
+
+    void IntSlider::SetCallback(const std::function<void()>& aCallback)
+    {
+        myCallback = aCallback;
     }
 } // HomeworkHelper::Component

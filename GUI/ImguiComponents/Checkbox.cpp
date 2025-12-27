@@ -1,6 +1,7 @@
 #include "Checkbox.h"
 #include "imgui.h"
 #include <cassert>
+#include <utility>
 
 namespace HomeworkHelper::Component
 {
@@ -8,9 +9,9 @@ namespace HomeworkHelper::Component
     {
     }
 
-    Checkbox::Checkbox(const std::string& aLabel, bool* aOutput, const std::function<void()>& aCallback) :
+    Checkbox::Checkbox(std::string aLabel, bool* aOutput, const std::function<void()>& aCallback) :
         myOutput(aOutput),
-        myLabel(aLabel),
+        myLabel(std::move(aLabel)),
         myCallback(aCallback)
     {
     }

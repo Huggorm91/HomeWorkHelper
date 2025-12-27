@@ -1,5 +1,5 @@
-#ifndef HOMEWORKHELPER_WINDOW_H
-#define HOMEWORKHELPER_WINDOW_H
+#ifndef HOMEWORKHELPER_COMPONENTWINDOW_H
+#define HOMEWORKHELPER_COMPONENTWINDOW_H
 #include <bitset>
 #include <vector>
 #include <memory>
@@ -56,4 +56,4 @@ namespace HomeworkHelper::Component
     };
 } // HomeworkHelper::Component
 
-#endif //HOMEWORKHELPER_WINDOW_H
+#endif //HOMEWORKHELPER_COMPONENTWINDOW_H

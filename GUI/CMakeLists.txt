@@ -17,7 +17,7 @@ set(LOCAL_SOURCES
         ImguiComponents/Button.cpp
         ImguiComponents/Textfield.cpp
         ImguiComponents/RadioButton.cpp
-        ImguiComponents/NumberField.cpp
+        ImguiComponents/IntField.cpp
         ImguiComponents/ImGuiID.cpp
         ImguiComponents/IntSlider.cpp
         ImguiComponents/Checkbox.cpp
@@ -29,6 +29,7 @@ set(LOCAL_SOURCES
         ImguiComponents/TreeNode.cpp
         ImguiComponents/SameLine.cpp
         ImguiComponents/Window.cpp
+        ImguiComponents/FloatField.cpp
 )
 
 set(PUBLIC_HEADERS
@@ -42,7 +43,7 @@ set(PUBLIC_HEADERS
         ImguiComponents/Button.h
         ImguiComponents/Textfield.h
         ImguiComponents/RadioButton.h
-        ImguiComponents/NumberField.h
+        ImguiComponents/IntField.h
         ImguiComponents/ImGuiID.h
         ImguiComponents/IntSlider.h
         ImguiComponents/Checkbox.h
@@ -54,6 +55,7 @@ set(PUBLIC_HEADERS
         ImguiComponents/TreeNode.h
         ImguiComponents/SameLine.h
         ImguiComponents/Window.h
+        ImguiComponents/FloatField.h
 )
 
 set(PRIVATE_HEADERS
