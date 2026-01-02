@@ -70,7 +70,7 @@ namespace HomeworkHelper
         static inline VkDescriptorPool localDescriptorPool = VK_NULL_HANDLE;
     }
 
-    WindowHandler::WindowHandler() : myWindowCounter(0)
+    WindowHandler::WindowHandler() : myIsUsingVulkan(false), myWindowCounter(0)
     {
     }
 
@@ -89,10 +89,15 @@ namespace HomeworkHelper
 
         // TODO: Add OpenGL as backup
         if (glfwVulkanSupported()) {
+			myIsUsingVulkan = true;
             InitVulkan();
         }
         else {
-            throw std::runtime_error("GLFW: Vulkan Not Supported");
+			// Use OpenGL 2 framework
+			myIsUsingVulkan = false;
+			ImGui_ImplGlfw_InitForOpenGL(window, true);
+			ImGui_ImplOpenGL2_Init();
+            // throw std::runtime_error("GLFW: Vulkan Not Supported");
         }
 
         InitImgui();
@@ -109,7 +114,12 @@ namespace HomeworkHelper
         instance.myWindows.clear();
 
         DestroyImgui();
-        DestroyVulkan();
+		if(myIsUsingVulkan){
+			DestroyVulkan();
+		}
+		else{
+			ImGui_ImplOpenGL2_Shutdown();
+		}
         DestroyGLFW();
 
         delete localInstance;
@@ -589,35 +599,44 @@ namespace HomeworkHelper
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
 
-        // Resize swap chain?
-        int fb_width, fb_height;
-        glfwGetFramebufferSize(outWindow.windowHandle, &fb_width, &fb_height);
-        if (fb_width > 0 && fb_height > 0 && (outWindow.rebuildSwapChain ||
-                                              outWindow.windowData->Width != fb_width ||
-                                              outWindow.windowData->Height != fb_height)) {
-            ImGui_ImplVulkan_SetMinImageCount(outWindow.minImageCount);
-            ImGui_ImplVulkanH_CreateOrResizeWindow(
-                Vulkan::localInstance,
-                Vulkan::localPhysicalDevice,
-                Vulkan::localDevice,
-                outWindow.windowData,
-                Vulkan::localQueueFamily,
-                Vulkan::localAllocator,
-                fb_width,
-                fb_height,
-                outWindow.minImageCount,
-                0
-            );
-            outWindow.windowData->FrameIndex = 0;
-            outWindow.rebuildSwapChain = false;
-        }
+		if(myIsUsingVulkan){
+			 // Resize swap chain?
+			int fb_width, fb_height;
+			glfwGetFramebufferSize(outWindow.windowHandle, &fb_width, &fb_height);
+			if (fb_width > 0 && fb_height > 0 && (outWindow.rebuildSwapChain ||
+												  outWindow.windowData->Width != fb_width ||
+												  outWindow.windowData->Height != fb_height)) {
+				ImGui_ImplVulkan_SetMinImageCount(outWindow.minImageCount);
+				ImGui_ImplVulkanH_CreateOrResizeWindow(
+					Vulkan::localInstance,
+					Vulkan::localPhysicalDevice,
+					Vulkan::localDevice,
+					outWindow.windowData,
+					Vulkan::localQueueFamily,
+					Vulkan::localAllocator,
+					fb_width,
+					fb_height,
+					outWindow.minImageCount,
+					0
+				);
+				outWindow.windowData->FrameIndex = 0;
+				outWindow.rebuildSwapChain = false;
+			}
+		}
+       
         if (glfwGetWindowAttrib(outWindow.windowHandle, GLFW_ICONIFIED) != 0) {
             ImGui_ImplGlfw_Sleep(10);
             return;
         }
 
-        // Start the Dear ImGui frame
-        ImGui_ImplVulkan_NewFrame();
+		// Start the Dear ImGui frame
+		if(myIsUsingVulkan){
+			ImGui_ImplVulkan_NewFrame();
+		}
+        else{
+			 ImGui_ImplOpenGL2_NewFrame();
+		}
+        
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
@@ -631,110 +650,131 @@ namespace HomeworkHelper
 
     void WindowHandler::RenderWindow(Window& outWindow)
     {
-        VkSemaphore image_acquired_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
-                    SemaphoreIndex].
-                ImageAcquiredSemaphore;
-        VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
-                    SemaphoreIndex].
-                RenderCompleteSemaphore;
-        VkResult err = vkAcquireNextImageKHR(
-            Vulkan::localDevice,
-            outWindow.windowData->Swapchain,
-            UINT64_MAX,
-            image_acquired_semaphore,
-            VK_NULL_HANDLE,
-            &outWindow.windowData->FrameIndex
-        );
-        if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR) {
-            outWindow.rebuildSwapChain = true;
-        }
-        if (err == VK_ERROR_OUT_OF_DATE_KHR) {
-            return;
-        }
-        if (err != VK_SUBOPTIMAL_KHR) {
-            check_vk_result(err);
-        }
+		if(myIsUsingVulkan)
+		{
+			VkSemaphore image_acquired_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
+						SemaphoreIndex].
+					ImageAcquiredSemaphore;
+			VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
+						SemaphoreIndex].
+					RenderCompleteSemaphore;
+			VkResult err = vkAcquireNextImageKHR(
+				Vulkan::localDevice,
+				outWindow.windowData->Swapchain,
+				UINT64_MAX,
+				image_acquired_semaphore,
+				VK_NULL_HANDLE,
+				&outWindow.windowData->FrameIndex
+			);
+			if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR) {
+				outWindow.rebuildSwapChain = true;
+			}
+			if (err == VK_ERROR_OUT_OF_DATE_KHR) {
+				return;
+			}
+			if (err != VK_SUBOPTIMAL_KHR) {
+				check_vk_result(err);
+			}
 
-        const ImGui_ImplVulkanH_Frame* fd = &outWindow.windowData->Frames[outWindow.windowData->FrameIndex];
-        {
-            err = vkWaitForFences(Vulkan::localDevice, 1, &fd->Fence, VK_TRUE, UINT64_MAX);
-            // wait indefinitely instead of periodically checking
-            check_vk_result(err);
+			const ImGui_ImplVulkanH_Frame* fd = &outWindow.windowData->Frames[outWindow.windowData->FrameIndex];
+			{
+				err = vkWaitForFences(Vulkan::localDevice, 1, &fd->Fence, VK_TRUE, UINT64_MAX);
+				// wait indefinitely instead of periodically checking
+				check_vk_result(err);
 
-            err = vkResetFences(Vulkan::localDevice, 1, &fd->Fence);
-            check_vk_result(err);
-        }
-        {
-            err = vkResetCommandPool(Vulkan::localDevice, fd->CommandPool, 0);
-            check_vk_result(err);
-            VkCommandBufferBeginInfo info = {};
-            info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-            info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-            err = vkBeginCommandBuffer(fd->CommandBuffer, &info);
-            check_vk_result(err);
-        }
-        {
-            VkRenderPassBeginInfo info = {};
-            info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-            info.renderPass = outWindow.windowData->RenderPass;
-            info.framebuffer = fd->Framebuffer;
-            info.renderArea.extent.width = outWindow.windowData->Width;
-            info.renderArea.extent.height = outWindow.windowData->Height;
-            info.clearValueCount = 1;
-            info.pClearValues = &outWindow.windowData->ClearValue;
-            vkCmdBeginRenderPass(fd->CommandBuffer, &info, VK_SUBPASS_CONTENTS_INLINE);
-        }
+				err = vkResetFences(Vulkan::localDevice, 1, &fd->Fence);
+				check_vk_result(err);
+			}
+			{
+				err = vkResetCommandPool(Vulkan::localDevice, fd->CommandPool, 0);
+				check_vk_result(err);
+				VkCommandBufferBeginInfo info = {};
+				info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+				info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+				err = vkBeginCommandBuffer(fd->CommandBuffer, &info);
+				check_vk_result(err);
+			}
+			{
+				VkRenderPassBeginInfo info = {};
+				info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+				info.renderPass = outWindow.windowData->RenderPass;
+				info.framebuffer = fd->Framebuffer;
+				info.renderArea.extent.width = outWindow.windowData->Width;
+				info.renderArea.extent.height = outWindow.windowData->Height;
+				info.clearValueCount = 1;
+				info.pClearValues = &outWindow.windowData->ClearValue;
+				vkCmdBeginRenderPass(fd->CommandBuffer, &info, VK_SUBPASS_CONTENTS_INLINE);
+			}
 
-        // Record dear imgui primitives into command buffer
-        ImGui_ImplVulkan_RenderDrawData(outWindow.drawData, fd->CommandBuffer);
+			// Record dear imgui primitives into command buffer
+			ImGui_ImplVulkan_RenderDrawData(outWindow.drawData, fd->CommandBuffer);
 
-        // Submit command buffer
-        vkCmdEndRenderPass(fd->CommandBuffer);
-        {
-            VkPipelineStageFlags wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
-            VkSubmitInfo info = {};
-            info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-            info.waitSemaphoreCount = 1;
-            info.pWaitSemaphores = &image_acquired_semaphore;
-            info.pWaitDstStageMask = &wait_stage;
-            info.commandBufferCount = 1;
-            info.pCommandBuffers = &fd->CommandBuffer;
-            info.signalSemaphoreCount = 1;
-            info.pSignalSemaphores = &render_complete_semaphore;
+			// Submit command buffer
+			vkCmdEndRenderPass(fd->CommandBuffer);
+			{
+				VkPipelineStageFlags wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+				VkSubmitInfo info = {};
+				info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+				info.waitSemaphoreCount = 1;
+				info.pWaitSemaphores = &image_acquired_semaphore;
+				info.pWaitDstStageMask = &wait_stage;
+				info.commandBufferCount = 1;
+				info.pCommandBuffers = &fd->CommandBuffer;
+				info.signalSemaphoreCount = 1;
+				info.pSignalSemaphores = &render_complete_semaphore;
 
-            err = vkEndCommandBuffer(fd->CommandBuffer);
-            check_vk_result(err);
-            err = vkQueueSubmit(Vulkan::localQueue, 1, &info, fd->Fence);
-            check_vk_result(err);
-        }
+				err = vkEndCommandBuffer(fd->CommandBuffer);
+				check_vk_result(err);
+				err = vkQueueSubmit(Vulkan::localQueue, 1, &info, fd->Fence);
+				check_vk_result(err);
+			}
+		}
+		else{
+			glViewport(0, 0, display_w, display_h);
+			glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+			glClear(GL_COLOR_BUFFER_BIT);
+
+			// If you are using this code with non-legacy OpenGL header/contexts (which you should not, prefer using imgui_impl_opengl3.cpp!!),
+			// you may need to backup/reset/restore other state, e.g. for current shader using the commented lines below.
+			//GLint last_program;
+			//glGetIntegerv(GL_CURRENT_PROGRAM, &last_program);
+			//glUseProgram(0);
+			ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+			//glUseProgram(last_program);
+		}
     }
 
     void WindowHandler::PresentWindow(Window& outWindow)
     {
-        if (outWindow.rebuildSwapChain) {
-            return;
-        }
-        VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
-                    SemaphoreIndex].
-                RenderCompleteSemaphore;
-        VkPresentInfoKHR info = {};
-        info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
-        info.waitSemaphoreCount = 1;
-        info.pWaitSemaphores = &render_complete_semaphore;
-        info.swapchainCount = 1;
-        info.pSwapchains = &outWindow.windowData->Swapchain;
-        info.pImageIndices = &outWindow.windowData->FrameIndex;
-        const VkResult err = vkQueuePresentKHR(Vulkan::localQueue, &info);
-        if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR) {
-            outWindow.rebuildSwapChain = true;
-        }
-        if (err == VK_ERROR_OUT_OF_DATE_KHR) {
-            return;
-        }
-        if (err != VK_SUBOPTIMAL_KHR) {
-            check_vk_result(err);
-        }
-        outWindow.windowData->SemaphoreIndex = (outWindow.windowData->SemaphoreIndex + 1) % outWindow.windowData->
-                                               SemaphoreCount;
+		if(myIsUsingVulkan){
+			if (outWindow.rebuildSwapChain) {
+				return;
+			}
+			VkSemaphore render_complete_semaphore = outWindow.windowData->FrameSemaphores[outWindow.windowData->
+						SemaphoreIndex].
+					RenderCompleteSemaphore;
+			VkPresentInfoKHR info = {};
+			info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+			info.waitSemaphoreCount = 1;
+			info.pWaitSemaphores = &render_complete_semaphore;
+			info.swapchainCount = 1;
+			info.pSwapchains = &outWindow.windowData->Swapchain;
+			info.pImageIndices = &outWindow.windowData->FrameIndex;
+			const VkResult err = vkQueuePresentKHR(Vulkan::localQueue, &info);
+			if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR) {
+				outWindow.rebuildSwapChain = true;
+			}
+			if (err == VK_ERROR_OUT_OF_DATE_KHR) {
+				return;
+			}
+			if (err != VK_SUBOPTIMAL_KHR) {
+				check_vk_result(err);
+			}
+			outWindow.windowData->SemaphoreIndex = (outWindow.windowData->SemaphoreIndex + 1) % outWindow.windowData->SemaphoreCount;
+		}
+		else{
+			glfwMakeContextCurrent(window);
+			glfwSwapBuffers(window);
+		}
     }
 } // HomeworkHelper

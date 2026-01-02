@@ -25,6 +25,7 @@ namespace HomeworkHelper
         static ImGui_ImplVulkanH_Window* GetWindowData(int anID);
 
     private:
+		bool myIsUsingVulkan;
         int myWindowCounter;
         std::unordered_map<int, Window> myWindows;
 
