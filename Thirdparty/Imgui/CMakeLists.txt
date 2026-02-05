@@ -5,6 +5,7 @@ set(IMGUI_INCLUDES ${IMGUI_DIR} ${IMGUI_DIR}/backends)
 set(IMGUI_SOURCES
         ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
         ${IMGUI_DIR}/backends/imgui_impl_vulkan.cpp
+        ${IMGUI_DIR}/backends/imgui_impl_opengl2.cpp
         ${IMGUI_DIR}/imgui.cpp
         ${IMGUI_DIR}/imgui_draw.cpp
         ${IMGUI_DIR}/imgui_tables.cpp

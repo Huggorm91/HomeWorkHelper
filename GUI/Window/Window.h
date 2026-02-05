@@ -14,6 +14,8 @@ namespace HomeworkHelper {
     struct Window {
         bool rebuildSwapChain = false;
         unsigned minImageCount = 2;
+        int height = 0;
+        int width = 0;
         GLFWwindow* windowHandle = nullptr;
         ImGui_ImplVulkanH_Window* windowData = nullptr;
         ImDrawData* drawData = nullptr;

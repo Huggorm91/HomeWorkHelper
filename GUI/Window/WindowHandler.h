@@ -44,6 +44,9 @@ namespace HomeworkHelper
         static void DestroyImgui();
 
         static void CreateWindow(Window& outWindow, int aWidth, int aHeight, const std::string& aTitle);
+        static void CreateGlfwWindow(Window& outWindow, int aWidth, int aHeight, const std::string& aTitle, int aHint, int aHintValue);
+        static void CreateVulkanWindow(Window& outWindow);
+        static void CreateOpenGLWindow(Window& outWindow);
         static void DestroyWindow(Window& outWindow);
 
         static bool ShouldCloseWindow(const Window& aWindow);

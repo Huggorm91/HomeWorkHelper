@@ -4,7 +4,8 @@ cmake_dependent_option(IS_LINUX "Build system is Linux" ON "UNIX;NOT APPLE" OFF)
 
 # Libraries
 find_package(Vulkan REQUIRED)
-set(LIBRARIES "glfw;Vulkan::Vulkan;imgui")
+find_package(OpenGL REQUIRED)
+set(LIBRARIES "glfw;Vulkan::Vulkan;OpenGL::GL;imgui")
 
 set(LOCAL_SOURCES
         Window/HomeworkWindow.cpp
