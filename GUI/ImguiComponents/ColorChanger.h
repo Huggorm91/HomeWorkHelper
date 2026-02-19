@@ -1,7 +1,7 @@
 #ifndef HOMEWORKHELPER_COLORCHANGER_H
 #define HOMEWORKHELPER_COLORCHANGER_H
 #include <memory>
-#include <string>
+#include "Common/Math/Vec4.h"
 
 #include "ImguiComponent.h"
 
@@ -12,19 +12,20 @@ namespace HomeworkHelper::Component
     public:
         ColorChanger() = default;
         ///
-        /// @param aId The ID that is going to wrap the child
-        explicit ColorChanger(int anImGuiColValue, int aColor);
-        ~ImGuiID() override = default;
+        /// @param anImGuiColValue The Imgui Color index that should be changed
+        /// @param aColor The color that will be applied
+        ColorChanger(int anImGuiColValue, const Common::Vec4& aColor);
+        ~ColorChanger() override = default;
 
         void UpdateContent() override;
 
 		void SetImGuiColValue(int anImGuiColValue);
-        void SetColor(int aColor);
+        void SetColor(const Common::Vec4& aColor);
         void SetChild(std::unique_ptr<ImguiComponent> aChild);
 
     private:
-        int myImGuiColValue;  // TODO: Change to the correct format
-		int myColor; // TODO: Change to the correct format
+        int myImGuiColValue;
+		Common::Vec4 myColor;
         std::unique_ptr<ImguiComponent> myChild;
     };
 } // HomeworkHelper::Component

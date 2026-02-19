@@ -7,7 +7,7 @@ find_package(Vulkan REQUIRED)
 find_package(OpenGL REQUIRED)
 set(LIBRARIES "glfw;Vulkan::Vulkan;OpenGL::GL;imgui")
 
-set(LOCAL_SOURCES
+set(GUI_LOCAL_SOURCES
         Window/HomeworkWindow.cpp
         Window/Window.cpp
         Window/WindowHandler.cpp
@@ -33,7 +33,7 @@ set(LOCAL_SOURCES
         ImguiComponents/FloatField.cpp
 )
 
-set(PUBLIC_HEADERS
+set(GUI_PUBLIC_HEADERS
         Window/HomeworkWindow.h
         Window/Window.h
         Window/WindowHandler.h
@@ -59,8 +59,9 @@ set(PUBLIC_HEADERS
         ImguiComponents/FloatField.h
 )
 
-set(PRIVATE_HEADERS
+set(GUI_PRIVATE_HEADERS
         GUIIncludes.h
+        ImguiComponents/ImguiConversions.h
 )
 
 if (IS_LINUX)
@@ -70,7 +71,7 @@ if (IS_LINUX)
 endif ()
 
 add_library(HH_GUI
-        ${LOCAL_SOURCES}
+        ${GUI_LOCAL_SOURCES}
 )
 
 target_link_libraries(HH_GUI
