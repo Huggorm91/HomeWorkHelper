@@ -2,7 +2,7 @@
 
 namespace Common
 {
-    Vec2::Vec2(float aX, float aY): x(aX), y(aY)
+    Vec2::Vec2(const float aX, const float aY): x(aX), y(aY)
     {
     }
 } // Common
