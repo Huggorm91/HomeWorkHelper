@@ -31,6 +31,7 @@ set(GUI_LOCAL_SOURCES
         ImguiComponents/SameLine.cpp
         ImguiComponents/Window.cpp
         ImguiComponents/FloatField.cpp
+        ImguiComponents/ColorChanger.cpp
 )
 
 set(GUI_PUBLIC_HEADERS
@@ -57,6 +58,7 @@ set(GUI_PUBLIC_HEADERS
         ImguiComponents/SameLine.h
         ImguiComponents/Window.h
         ImguiComponents/FloatField.h
+        ImguiComponents/ColorChanger.h
 )
 
 set(GUI_PRIVATE_HEADERS

@@ -4,6 +4,8 @@
 
 namespace Math
 {
+	std::string FloatToString(float aFloat);
+
     class SolverBase
     {
     public:
@@ -42,6 +44,7 @@ namespace Math
 		std::mt19937& myEngine;
 		
 		virtual void GenerateNumbers();
+    	float RoundTo2Decimals(float aNumber) const;
     };
 } // Math
 

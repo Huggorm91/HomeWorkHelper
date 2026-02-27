@@ -19,7 +19,7 @@ namespace HomeworkHelper::Component
     void FloatField::UpdateContent()
     {
         assert(myOutput && "Output is not set!");
-        if (ImGui::InputFloat(myLabel.c_str(), myOutput)) {
+        if (ImGui::InputFloat(myLabel.c_str(), myOutput, 0, 0, "%.2f")) {
             myCallback();
         }
     }

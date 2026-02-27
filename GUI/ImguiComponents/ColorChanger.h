@@ -24,7 +24,7 @@ namespace HomeworkHelper::Component
         void SetChild(std::unique_ptr<ImguiComponent> aChild);
 
     private:
-        int myImGuiColValue;
+        int myImGuiColValue = -1;
 		Common::Vec4 myColor;
         std::unique_ptr<ImguiComponent> myChild;
     };

@@ -63,9 +63,9 @@ namespace HomeworkHelper::Component
         }
     }
 
-    void Window::AddChildNode(std::unique_ptr<ImguiComponent> aChild)
+    std::unique_ptr<ImguiComponent>& Window::AddChildNode(std::unique_ptr<ImguiComponent> aChild)
     {
-        myItems.emplace_back(std::move(aChild));
+        return myItems.emplace_back(std::move(aChild));
     }
 
     void Window::ClearChildren()

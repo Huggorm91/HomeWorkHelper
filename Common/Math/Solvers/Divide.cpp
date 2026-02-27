@@ -32,13 +32,14 @@ namespace Math
 
     void Divide::GenerateNumbers()
     {
+        constexpr int maxAttempts = 5;
         SolverBase::GenerateNumbers();
         if (myIsUsingFloats) {
             int counter = 0;
             while(mySecondNumber.f == 0.f) {
-                mySecondNumber.f = myNumberGenerator.f(myEngine);
+                mySecondNumber.f = RoundTo2Decimals(myNumberGenerator.f(myEngine));
                 ++counter;
-                if (counter == 10) {
+                if (counter == maxAttempts) {
                     mySecondNumber.f = 1.f;
                 }
             }
@@ -48,7 +49,7 @@ namespace Math
             while(mySecondNumber.i == 0) {
                 mySecondNumber.i = myNumberGenerator.i(myEngine);
                 ++counter;
-                if (counter == 10) {
+                if (counter == maxAttempts) {
                     mySecondNumber.i = 1;
                 }
             }

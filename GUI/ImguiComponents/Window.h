@@ -38,7 +38,7 @@ namespace HomeworkHelper::Component
 
         void UpdateContent() override;
 
-        void AddChildNode(std::unique_ptr<ImguiComponent> aChild);
+        std::unique_ptr<ImguiComponent>& AddChildNode(std::unique_ptr<ImguiComponent> aChild);
         void ClearChildren();
 
         void SetIsOpen(bool* aIsOpen);

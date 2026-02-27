@@ -1,8 +1,15 @@
 #include "SolverBase.h"
 
+#include <format>
+
 namespace Math
 {
-    SolverBase::SolverBase(std::mt19937& anEngine, int aMin, int aMax, bool anIsUsingFloats) :
+    std::string FloatToString(float aFloat)
+    {
+        return std::format("{:.2f}",aFloat);
+    }
+
+    SolverBase::SolverBase(std::mt19937& anEngine, const int aMin, const int aMax, const bool anIsUsingFloats) :
         myIsUsingFloats(anIsUsingFloats),
         myFirstNumber{},
         mySecondNumber{},
@@ -25,12 +32,12 @@ namespace Math
         }
     }
 
-    bool SolverBase::Solve(int anAnswer) const
+    bool SolverBase::Solve(const int anAnswer) const
     {
         return anAnswer == GetAnswerInt();
     }
 
-    bool SolverBase::Solve(float anAnswer) const
+    bool SolverBase::Solve(const float anAnswer) const
     {
         return anAnswer == GetAnswerFloat();
     }
@@ -39,7 +46,7 @@ namespace Math
     {
         GenerateNumbers();
         if (myIsUsingFloats) {
-            return std::to_string(myFirstNumber.f) + " " + GetSymbol() + " " + std::to_string(mySecondNumber.f);
+            return FloatToString(myFirstNumber.f) + " " + GetSymbol() + " " + FloatToString(mySecondNumber.f);
         }
         return std::to_string(myFirstNumber.i) + " " + GetSymbol() + " " + std::to_string(mySecondNumber.i);
     }
@@ -47,12 +54,17 @@ namespace Math
     void SolverBase::GenerateNumbers()
     {
         if (myIsUsingFloats) {
-            myFirstNumber.f = myNumberGenerator.f(myEngine);
-            mySecondNumber.f = myNumberGenerator.f(myEngine);
+            myFirstNumber.f = RoundTo2Decimals(myNumberGenerator.f(myEngine));
+            mySecondNumber.f = RoundTo2Decimals(myNumberGenerator.f(myEngine));
         }
         else {
             myFirstNumber.i = myNumberGenerator.i(myEngine);
             mySecondNumber.i = myNumberGenerator.i(myEngine);
         }
+    }
+
+    float SolverBase::RoundTo2Decimals(const float aNumber) const
+    {
+        return roundf(aNumber * 100.0f) / 100.0f;
     }
 }

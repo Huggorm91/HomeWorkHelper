@@ -2,6 +2,7 @@
 
 #include <format>
 
+#include "imgui.h"
 #include "GUI/ImguiComponents/Window.h"
 #include "GUI/ImguiComponents/Label.h"
 #include "GUI/ImguiComponents/Checkbox.h"
@@ -10,6 +11,7 @@
 #include "GUI/ImguiComponents/Button.h"
 #include "GUI/ImguiComponents/SameLine.h"
 #include "GUI/ImguiComponents/SeparatorLine.h"
+#include "GUI/ImguiComponents/ColorChanger.h"
 
 namespace HomeworkHelper
 {
@@ -17,7 +19,8 @@ namespace HomeworkHelper
     {
         myGenerator.SetExtremes(myMin, myMax);
 
-        // Temporary content to test the system
+        myComponents.clear();
+
         int flags = Component::WindowFlags::RemoveTopBar | Component::WindowFlags::DisableResize |
                     Component::WindowFlags::SetPositionEveryStart | Component::WindowFlags::SetSizeEveryStart;
         const auto& baseWindow = myComponents.emplace_back(
@@ -74,13 +77,16 @@ namespace HomeworkHelper
             )
         );
 
-        std::make_unique<Component::Checkbox>(
-            "Decimal tal",
-            &myIsUsingFloats,
-            [this] {
-                myGenerator.SetUseFloats(myIsUsingFloats);
-                NewQuestion();
-            }
+        window.AddChildNode(
+            std::make_unique<Component::Checkbox>(
+                "Decimal tal",
+                &myIsUsingFloats,
+                [this] {
+                    myGenerator.SetUseFloats(myIsUsingFloats);
+                    NewQuestion();
+                    GenerateImguiContent();
+                }
+            )
         );
 
         window.AddChildNode(std::make_unique<Component::SeparatorLine>());
@@ -89,25 +95,41 @@ namespace HomeworkHelper
         if (myIsUsingFloats) {
             myAnswer.f = 0.f;
             window.AddChildNode(
-                std::make_unique<Component::FloatField>("Svar", &myAnswer.f, [this] {
-                    myHasAnswered = false;
-                    myShouldShowAnswer = false;
-                })
+                std::make_unique<Component::FloatField>(
+                    "Svar",
+                    &myAnswer.f,
+                    [this] {
+                        myHasAnswered = false;
+                        myShouldShowAnswer = false;
+                    }
+                )
             );
         }
         else {
             myAnswer.i = 0;
             window.AddChildNode(
-                std::make_unique<Component::IntField>("Svar", &myAnswer.i, [this] {
-                    myHasAnswered = false;
-                    myShouldShowAnswer = false;
-                })
+                std::make_unique<Component::IntField>(
+                    "Svar",
+                    &myAnswer.i,
+                    [this] {
+                        myHasAnswered = false;
+                    }
+                )
             );
         }
 
-        window.AddChildNode(
-            std::make_unique<Component::DynamicLabel>(
-                [this]()-> std::string {
+        {
+            auto& colorChanger = dynamic_cast<Component::ColorChanger&>(*window.AddChildNode(std::make_unique<Component::ColorChanger>(ImGuiCol_Text, Common::Vec4(1.f, 1.f, 1.f, 1.f))));
+            colorChanger.SetChild(
+                std::make_unique<Component::DynamicLabel>(
+                [this, &colorChanger]()-> std::string {
+                    colorChanger.SetColor(Common::Vec4(1.f, 1.f, 1.f, 1.f));
+                    if (myShouldShowAnswer) {
+                        const std::string& answer = myIsUsingFloats ?
+                                                        Math::FloatToString(myGenerator.GetAnswerFloat()) :
+                                                        std::to_string(myGenerator.GetAnswerInt());
+                        return "Rätt svar är: " + answer;
+                    }
                     if (myHasAnswered) {
                         if (myGenerator.GetQuestion().empty()) {
                             return "Du måste skapa en ny fråga innan du kan svara!";
@@ -116,23 +138,23 @@ namespace HomeworkHelper
                                              myGenerator.CheckAnswer(myAnswer.f) :
                                              myGenerator.CheckAnswer(myAnswer.i);
                         if (isCorrect) {
+                            colorChanger.SetColor(Common::Vec4(0.f, 1.f, 0.f, 1.f));
                             return "Rätt svar! Bra gjort :D";
                         }
+                        colorChanger.SetColor(Common::Vec4(1.f, 0.f, 0.f, 1.f));
                         return "Fel svar. Försök igen!";
-                    }
-                    if (myShouldShowAnswer) {
-                        const std::string& answer = myIsUsingFloats ?
-                                                        std::to_string(myGenerator.GetAnswerFloat()) :
-                                                        std::to_string(myGenerator.GetAnswerInt());
-                        return "Rätt svar är: " + answer;
                     }
                     return "";
                 }
             )
-        );
+            );
+        }
 
         window.AddChildNode(
-            std::make_unique<Component::Button>("Svara", Common::Vec2{0.f, 0.f}, [this] { myHasAnswered = true; })
+            std::make_unique<Component::Button>("Svara", Common::Vec2{0.f, 0.f}, [this] {
+                myHasAnswered = true;
+                myShouldShowAnswer = false;
+            })
         );
         window.AddChildNode(std::make_unique<Component::SameLine>());
         window.AddChildNode(
@@ -149,7 +171,10 @@ namespace HomeworkHelper
             std::make_unique<Component::Button>(
                 "Visa svar",
                 Common::Vec2{0.f, 0.f},
-                [this] { myShouldShowAnswer = true; }
+                [this] {
+                    myShouldShowAnswer = true;
+                    myHasAnswered = false;
+                }
             )
         );
     }
@@ -170,6 +195,12 @@ namespace HomeworkHelper
     {
         myHasAnswered = false;
         myShouldShowAnswer = false;
+        if (myIsUsingFloats) {
+            myAnswer.f = 0.f;
+        }
+        else {
+            myAnswer.i = 0;
+        }
         myGenerator.GenerateQuestion();
     }
 } // HomeworkHelper
