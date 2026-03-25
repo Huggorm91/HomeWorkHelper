@@ -32,6 +32,8 @@ set(GUI_LOCAL_SOURCES
         ImguiComponents/Window.cpp
         ImguiComponents/FloatField.cpp
         ImguiComponents/ColorChanger.cpp
+        Rendering/VulkanRender.cpp
+        Rendering/OpenGLRender.cpp
 )
 
 set(GUI_PUBLIC_HEADERS
@@ -59,6 +61,9 @@ set(GUI_PUBLIC_HEADERS
         ImguiComponents/Window.h
         ImguiComponents/FloatField.h
         ImguiComponents/ColorChanger.h
+        Rendering/RenderBase.h
+        Rendering/VulkanRender.h
+        Rendering/OpenGLRender.h
 )
 
 set(GUI_PRIVATE_HEADERS
