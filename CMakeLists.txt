@@ -9,6 +9,12 @@ set(CMAKE_CFG_INTDIR ${PROJECT_SOURCE_DIR}/_temp/${CMAKE_BUILD_TYPE})
 
 include_directories(${PROJECT_SOURCE_DIR})
 
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    add_definitions(-D_DEBUG)
+elseif(CMAKE_BUILD_TYPE MATCHES Release)
+    add_definitions(-D_RELEASE)
+endif()
+
 add_subdirectory(Thirdparty/glfw)   # glfw library
 add_subdirectory(Thirdparty/Imgui)  # imgui library
 add_subdirectory(Common)            # Common Utilities library
