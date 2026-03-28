@@ -1,8 +1,14 @@
 #ifndef HOMEWORKHELPER_WINDOWHANDLER_H
 #define HOMEWORKHELPER_WINDOWHANDLER_H
+#include <memory>
 #include <unordered_map>
 #include <string>
 #include "Window.h"
+
+namespace HomeworkHelper::Rendering
+{
+    class RenderBase;
+}
 
 namespace HomeworkHelper
 {
@@ -25,8 +31,8 @@ namespace HomeworkHelper
         static ImGui_ImplVulkanH_Window* GetWindowData(int anID);
 
     private:
-		bool myIsUsingVulkan;
         int myWindowCounter;
+        std::unique_ptr<Rendering::RenderBase> myRenderer;
         std::unordered_map<int, Window> myWindows;
 
         WindowHandler();
@@ -37,24 +43,17 @@ namespace HomeworkHelper
         static void InitGLFW();
         static void DestroyGLFW();
 
-        static void InitVulkan();
-        static void DestroyVulkan();
-
         static void InitImgui();
         static void DestroyImgui();
 
         static void CreateWindow(Window& outWindow, int aWidth, int aHeight, const std::string& aTitle);
         static void CreateGlfwWindow(Window& outWindow, int aWidth, int aHeight, const std::string& aTitle, int aHint, int aHintValue);
-        static void CreateVulkanWindow(Window& outWindow);
-        static void CreateOpenGLWindow(Window& outWindow);
         static void DestroyWindow(Window& outWindow);
 
         static bool ShouldCloseWindow(const Window& aWindow);
         static bool IsMinimizedWindow(const Window& aWindow);
 
         static void UpdateWindow(Window& outWindow);
-        static void RenderWindow(Window& outWindow);
-        static void PresentWindow(Window& outWindow);
     };
 } // HomeworkHelper
 

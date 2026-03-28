@@ -14,13 +14,13 @@ namespace HomeworkHelper::Rendering
         void Shutdown() override;
 
         void Update() override;
-        void Render(Component::Window& outWindow) override;
-        void Present(Component::Window& outWindow) override;
+        void Render(Window& outWindow) override;
+        void Present(Window& outWindow) override;
 
-        void HandleResize(Component::Window& outWindow, int aNewWidth, int aNewHeight) override;
+        void HandleResize(Window& outWindow, int aNewWidth, int aNewHeight) override;
 
-        void CreateWindow(Component::Window& outWindow) override;
-        void DestroyWindow(Component::Window& outWindow) override;
+        void CreateWindow(Window& outWindow) override;
+        void DestroyWindow(Window& outWindow) override;
 
         [[nodiscard]] constexpr int GetGlfwWindowHint() const override;
         [[nodiscard]] constexpr int GetGlfwWindowHintValue() const override;
